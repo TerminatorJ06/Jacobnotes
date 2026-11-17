@@ -1,0 +1,3125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <title>Jacob's Garden — Organic Note Sanctuary</title>
+
+  <!-- Editorial & Minimalist Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Newsreader', 'Georgia', 'serif'],
+          },
+          colors: {
+            linen: 'rgb(var(--c-linen) / <alpha-value>)',
+            surface: 'rgb(var(--c-surface) / <alpha-value>)',
+            stone: 'rgb(var(--c-stone) / <alpha-value>)',
+            charcoal: 'rgb(var(--c-charcoal) / <alpha-value>)',
+            lichen: 'rgb(var(--c-lichen) / <alpha-value>)',
+            sage: 'rgb(var(--c-sage) / <alpha-value>)',
+            terracotta: 'rgb(var(--c-terracotta) / <alpha-value>)',
+            ochre: 'rgb(var(--c-ochre) / <alpha-value>)',
+            slateleaf: 'rgb(var(--c-slateleaf) / <alpha-value>)',
+            plum: 'rgb(var(--c-plum) / <alpha-value>)',
+          },
+          boxShadow: {
+            soft: '0 10px 35px -10px var(--shadow-soft)',
+            float: '0 20px 50px -12px var(--shadow-float)',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Adaptive Light & Dark Organic Color Tokens */
+    :root {
+      --c-linen: 247 245 240;
+      --c-surface: 255 255 255;
+      --c-stone: 234 230 220;
+      --c-charcoal: 24 25 23;
+      --c-lichen: 78 80 73;
+      --c-sage: 47 87 71;
+      --c-terracotta: 184 104 62;
+      --c-ochre: 163 123 53;
+      --c-slateleaf: 67 88 105;
+      --c-plum: 110 75 89;
+      --shadow-soft: rgba(24, 25, 23, 0.10);
+      --shadow-float: rgba(24, 25, 23, 0.18);
+      --vignette-inner: rgba(255, 254, 250, 0.72);
+      --vignette-outer: rgba(232, 226, 214, 0.58);
+      --grain-dot: rgba(24, 25, 23, 0.09);
+    }
+
+    [data-theme="dark"] {
+      --c-linen: 18 21 19;
+      --c-surface: 27 31 28;
+      --c-stone: 37 43 39;
+      --c-charcoal: 237 234 226;
+      --c-lichen: 164 169 159;
+      --c-sage: 103 168 137;
+      --c-terracotta: 219 133 88;
+      --c-ochre: 207 162 81;
+      --c-slateleaf: 116 152 181;
+      --c-plum: 171 122 142;
+      --shadow-soft: rgba(0, 0, 0, 0.36);
+      --shadow-float: rgba(0, 0, 0, 0.55);
+      --vignette-inner: rgba(28, 34, 30, 0.55);
+      --vignette-outer: rgba(11, 13, 12, 0.75);
+      --grain-dot: rgba(237, 234, 226, 0.06);
+    }
+
+    /* Base Reset & Google Sites / Mobile Safe Viewport Styling */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      overflow: hidden;
+      background-color: rgb(var(--c-linen));
+      color: rgb(var(--c-charcoal));
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.35s ease, color 0.35s ease;
+    }
+
+    /* Subtle organic paper texture overlay */
+    .paper-grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      opacity: 0.24;
+      background-image: radial-gradient(var(--grain-dot) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    /* Soft ambient radial vignette */
+    .ambient-vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(circle at 50% 45%, var(--vignette-inner) 0%, var(--vignette-outer) 100%);
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+    }
+
+    canvas:active {
+      cursor: grabbing;
+    }
+
+    /* Custom subtle scrollbars */
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgb(var(--c-charcoal) / 0.22);
+      border-radius: 9999px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: rgb(var(--c-charcoal) / 0.35);
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: rgba(24, 25, 23, 0.3);
+    }
+
+    /* Smooth drawer & view animations */
+    .drawer-transition {
+      transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+    }
+
+    @keyframes gentleFadeUp {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up {
+      animation: gentleFadeUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes checkPop {
+      0% { transform: scale(0.8); }
+      50% { transform: scale(1.18); }
+      100% { transform: scale(1); }
+    }
+    .animate-check-pop {
+      animation: checkPop 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  </style>
+</head>
+<body class="relative">
+
+  <!-- Ambient Vignette & Paper Grain -->
+  <div class="ambient-vignette"></div>
+  <div class="paper-grain"></div>
+
+  <!-- =======================================================================
+       UNIFIED RESPONSIVE TOP NAVIGATION BAR (Mobile & Google Sites Friendly)
+  ======================================================================== -->
+  <header class="fixed top-0 left-0 right-0 z-30 pointer-events-none px-2.5 sm:px-8 pt-2.5 sm:pt-4">
+    <div class="max-w-7xl mx-auto flex flex-col gap-2">
+      
+      <!-- Primary Header Row: Brand Pill, Centered Tabs (Desktop), Theme & Create Actions -->
+      <div class="flex items-center justify-between gap-2">
+        <!-- Brand & Live Auto-Save Status Pill -->
+        <div class="flex items-center gap-2 pointer-events-auto min-w-0">
+          <div class="flex items-center gap-2 bg-surface/95 backdrop-blur-md border border-charcoal/15 rounded-full px-3 sm:px-4 py-1.5 sm:py-2 shadow-soft min-w-0">
+            <span class="w-2.5 h-2.5 rounded-full bg-sage inline-block shrink-0"></span>
+            <span class="font-serif text-base sm:text-lg tracking-tight text-charcoal font-medium truncate">Jacob's Garden</span>
+            <span class="text-charcoal/20 hidden xs:inline">|</span>
+            <span id="syncStatusPill" class="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-medium text-sage shrink-0">
+              <span id="syncStatusDot" class="w-1.5 h-1.5 rounded-full bg-sage"></span>
+              <span id="syncStatusText">Auto-saved</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Desktop 3-Page Segmented Switcher -->
+        <nav
+          aria-label="Workspace Pages Desktop"
+          class="hidden md:flex pointer-events-auto bg-surface/95 backdrop-blur-md border border-charcoal/15 rounded-full p-1 shadow-soft items-center gap-1"
+        >
+          <button
+            type="button"
+            data-page="garden"
+            class="nav-tab-btn active flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-medium transition-all bg-charcoal text-linen shadow-sm"
+          >
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="3"></circle>
+              <circle cx="5" cy="6" r="2"></circle>
+              <circle cx="19" cy="7" r="2"></circle>
+              <circle cx="6" cy="18" r="2"></circle>
+              <path stroke-linecap="round" d="M9.5 10.2L6.7 7.5M14.5 10.2l2.8-2M9.8 14.2L7.5 16.5"></path>
+            </svg>
+            <span>Garden</span>
+          </button>
+
+          <button
+            type="button"
+            data-page="notes"
+            class="nav-tab-btn flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-medium text-charcoal/80 hover:text-charcoal transition-all"
+          >
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+            <span>Notes</span>
+            <span class="nav-notes-count text-[10px] px-1.5 py-0.2 rounded-full bg-stone text-charcoal font-semibold">6</span>
+          </button>
+
+          <button
+            type="button"
+            data-page="todos"
+            class="nav-tab-btn flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-medium text-charcoal/80 hover:text-charcoal transition-all"
+          >
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>To-Do</span>
+            <span class="nav-todos-count text-[10px] px-1.5 py-0.2 rounded-full bg-stone text-charcoal font-semibold">2</span>
+          </button>
+        </nav>
+
+        <!-- Right Actions (Theme Toggle + Harmonize + Primary Create Button) -->
+        <div class="flex items-center gap-1.5 sm:gap-2 pointer-events-auto shrink-0">
+          <!-- Dark / Light Theme Toggle -->
+          <button
+            id="themeToggleBtn"
+            type="button"
+            title="Switch between Light and Dark theme"
+            aria-label="Toggle dark theme"
+            class="bg-surface/95 hover:bg-surface backdrop-blur-md border border-charcoal/15 text-charcoal rounded-full p-2 sm:px-3 sm:py-2 text-xs font-medium flex items-center gap-1.5 shadow-soft transition-all active:scale-95"
+          >
+            <!-- Moon Icon (shown in Light Mode) -->
+            <svg id="themeIconMoon" class="w-4 h-4 text-charcoal" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+            </svg>
+            <!-- Sun Icon (shown in Dark Mode) -->
+            <svg id="themeIconSun" class="hidden w-4 h-4 text-ochre" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"></path>
+            </svg>
+            <span id="themeToggleLabel" class="hidden lg:inline">Dark</span>
+          </button>
+
+          <!-- Harmonize (Only visible in Garden view) -->
+          <button
+            id="harmonizeBtn"
+            type="button"
+            title="Gently rebalance note constellation"
+            class="bg-surface/95 hover:bg-surface backdrop-blur-md border border-charcoal/15 text-charcoal rounded-full p-2 sm:px-3.5 sm:py-2 text-xs font-medium flex items-center gap-1.5 shadow-soft transition-all active:scale-95"
+          >
+            <svg class="w-4 h-4 text-sage" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m0-12.728l1.414 1.414m9.9 9.9l1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            </svg>
+            <span class="hidden lg:inline">Harmonize</span>
+          </button>
+
+          <!-- Primary New Note Button -->
+          <button
+            id="newNoteBtn"
+            type="button"
+            class="bg-charcoal hover:bg-sage text-linen rounded-full px-3 sm:px-4 py-2 text-xs font-medium flex items-center gap-1 shadow-soft transition-all duration-300 active:scale-95"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" d="M12 5v14M5 12h14"></path>
+            </svg>
+            <span>Note</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile & Tablet 3-Page Segmented Navigation Switcher -->
+      <nav
+        aria-label="Workspace Pages Mobile"
+        class="md:hidden w-full pointer-events-auto bg-surface/95 backdrop-blur-md border border-charcoal/15 rounded-full p-1 shadow-soft grid grid-cols-3 items-center gap-1"
+      >
+        <button
+          type="button"
+          data-page="garden"
+          class="nav-tab-btn active flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all bg-charcoal text-linen shadow-sm"
+        >
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3"></circle>
+            <circle cx="5" cy="6" r="2"></circle>
+            <circle cx="19" cy="7" r="2"></circle>
+            <circle cx="6" cy="18" r="2"></circle>
+            <path stroke-linecap="round" d="M9.5 10.2L6.7 7.5M14.5 10.2l2.8-2M9.8 14.2L7.5 16.5"></path>
+          </svg>
+          <span>Garden</span>
+        </button>
+
+        <button
+          type="button"
+          data-page="notes"
+          class="nav-tab-btn flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-charcoal/80 hover:text-charcoal transition-all"
+        >
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+          </svg>
+          <span>Notes</span>
+          <span class="nav-notes-count text-[10px] px-1.5 py-0.2 rounded-full bg-stone text-charcoal font-semibold">6</span>
+        </button>
+
+        <button
+          type="button"
+          data-page="todos"
+          class="nav-tab-btn flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-charcoal/80 hover:text-charcoal transition-all"
+        >
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>To-Do</span>
+          <span class="nav-todos-count text-[10px] px-1.5 py-0.2 rounded-full bg-stone text-charcoal font-semibold">2</span>
+        </button>
+      </nav>
+
+      <!-- Garden Filter & Group Controls (Flows cleanly below nav so it never overlaps on mobile) -->
+      <div id="gardenToolbar" class="pointer-events-none flex flex-wrap items-center gap-1.5 sm:gap-2">
+        <div class="relative flex items-center pointer-events-auto">
+          <svg class="w-3.5 h-3.5 text-charcoal/70 absolute left-3 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path stroke-linecap="round" d="M20 20l-3.5-3.5"></path>
+          </svg>
+          <input
+            id="gardenSearchInput"
+            type="text"
+            placeholder="Highlight ideas..."
+            class="bg-surface/95 hover:bg-surface focus:bg-surface backdrop-blur-md border border-charcoal/15 focus:border-sage rounded-full pl-8 pr-7 py-1.5 sm:py-2 text-xs text-charcoal placeholder-lichen outline-none w-36 sm:w-56 transition-all shadow-soft"
+          />
+          <button id="clearGardenSearchBtn" class="hidden absolute right-2 text-charcoal/70 hover:text-charcoal p-1 rounded-full" title="Clear filter">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Make Group Action Pill -->
+        <button
+          id="openGroupModalBtn"
+          type="button"
+          title="Bundle notes into an organic group"
+          class="pointer-events-auto bg-surface/95 hover:bg-surface backdrop-blur-md border border-charcoal/15 hover:border-sage text-charcoal rounded-full px-3 py-1.5 sm:py-2 text-xs font-medium flex items-center gap-1.5 shadow-soft transition-all active:scale-95"
+        >
+          <svg class="w-3.5 h-3.5 text-sage" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+            <circle cx="9" cy="10" r="2.2"></circle>
+            <circle cx="15" cy="10" r="2.2"></circle>
+            <circle cx="12" cy="15.2" r="2.2"></circle>
+            <circle cx="12" cy="12" r="9" stroke-dasharray="2.5 2.5"></circle>
+          </svg>
+          <span>Group</span>
+        </button>
+
+        <!-- Toggle Group Clustering Visibility -->
+        <button
+          id="toggleGroupClusterBtn"
+          type="button"
+          title="Toggle organic group groves"
+          class="pointer-events-auto bg-sage/15 hover:bg-sage/25 backdrop-blur-md border border-sage/35 text-sage rounded-full px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs font-medium flex items-center gap-1.5 shadow-soft transition-all active:scale-95"
+        >
+          <span id="groupClusterDot" class="w-1.5 h-1.5 rounded-full bg-sage"></span>
+          <span id="groupClusterLabel">Groups: On</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================================================================
+       PAGE 1: ORGANIC CONSTELLATION GARDEN VIEW
+  ======================================================================== -->
+  <main id="gardenView" class="relative w-full h-full z-10">
+    <!-- Full-Viewport Interactive Organic Graph Canvas -->
+    <canvas id="gardenCanvas"></canvas>
+
+    <!-- Floating Connection Whisper Tooltip -->
+    <div
+      id="connectionTooltip"
+      class="fixed z-30 pointer-events-none opacity-0 transition-opacity duration-200 bg-charcoal text-linen text-xs font-medium px-3.5 py-1.5 rounded-full shadow-float flex items-center gap-2"
+    >
+      <span class="w-2 h-2 rounded-full bg-terracotta"></span>
+      <span id="connectionTooltipText">Connected via #ecology</span>
+    </div>
+
+    <!-- Subtle Desktop Hint Pill -->
+    <div class="fixed bottom-6 left-8 z-20 pointer-events-none hidden md:flex">
+      <div class="bg-surface/90 backdrop-blur-md border border-charcoal/15 rounded-full px-4 py-2 text-xs text-charcoal/85 shadow-soft flex items-center gap-2 pointer-events-auto">
+        <span>Double-click canvas to plant a note</span>
+        <span class="text-charcoal/30">•</span>
+        <span>Use <code class="text-sage font-semibold">#tags</code> or <code class="text-sage font-semibold">[[Title]]</code> to weave threads</span>
+      </div>
+    </div>
+
+    <!-- Always-Visible Zoom & Recenter Controls (Positioned in safe zone so Google Sites mobile iframes never clip them) -->
+    <div
+      aria-label="Zoom Controls"
+      class="fixed right-2.5 top-[58%] -translate-y-1/2 sm:top-auto sm:translate-y-0 sm:bottom-6 sm:right-8 z-30 flex flex-col sm:flex-row items-center gap-1 bg-surface/95 backdrop-blur-md border border-charcoal/20 rounded-full p-1.5 shadow-float pointer-events-auto"
+    >
+      <button
+        id="zoomInBtn"
+        type="button"
+        title="Zoom in"
+        aria-label="Zoom in"
+        class="w-9 h-9 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-stone active:bg-stone rounded-full text-charcoal transition-colors"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" d="M12 5v14M5 12h14"></path>
+        </svg>
+      </button>
+      <button
+        id="resetViewBtn"
+        type="button"
+        title="Reset zoom & center"
+        aria-label="Reset zoom"
+        class="px-2 py-1.5 sm:px-2.5 sm:py-1 hover:bg-stone active:bg-stone rounded-full text-[11px] font-semibold text-charcoal transition-colors"
+      >
+        100%
+      </button>
+      <button
+        id="zoomOutBtn"
+        type="button"
+        title="Zoom out"
+        aria-label="Zoom out"
+        class="w-9 h-9 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-stone active:bg-stone rounded-full text-charcoal transition-colors"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" d="M5 12h14"></path>
+        </svg>
+      </button>
+    </div>
+  </main>
+
+  <!-- =======================================================================
+       PAGE 2: DEDICATED EDITORIAL NOTES READER & LIBRARY
+  ======================================================================== -->
+  <section
+    id="notesView"
+    class="hidden fixed inset-0 z-10 overflow-y-auto custom-scroll pt-28 md:pt-24 pb-20 px-3 sm:px-8"
+  >
+    <div class="max-w-6xl mx-auto animate-fade-up">
+      <!-- Top Search & Tag Filter Bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+        <div>
+          <h1 class="font-serif text-2xl sm:text-3xl text-charcoal font-medium">Notebook & Reflections</h1>
+          <p class="text-xs sm:text-sm text-lichen mt-0.5">Read your thoughts clearly in full editorial form, or jump between woven links.</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <div class="relative flex-1 sm:w-72">
+            <svg class="w-4 h-4 text-lichen absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path stroke-linecap="round" d="M20 20l-3.5-3.5"></path>
+            </svg>
+            <input
+              id="notesPageSearchInput"
+              type="text"
+              placeholder="Search notes by title, text, or #tag..."
+              class="w-full bg-surface border border-charcoal/15 focus:border-sage rounded-full pl-10 pr-4 py-2.5 text-xs sm:text-sm text-charcoal placeholder-lichen outline-none shadow-soft"
+            />
+          </div>
+          <button
+            id="exportMdBtn"
+            title="Export all notes as Markdown"
+            class="bg-surface hover:bg-stone border border-charcoal/15 text-charcoal rounded-full p-2.5 sm:px-3.5 sm:py-2.5 text-xs font-medium flex items-center gap-1.5 shadow-soft transition-colors shrink-0"
+          >
+            <svg class="w-4 h-4 text-terracotta" fill="none" stroke="currentColor" stroke-width="1.85" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 12l-4-4m4 4l4-4M4 20h16"></path>
+            </svg>
+            <span class="hidden md:inline">Export .md</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Dynamic Tag Pills Filter Bar -->
+      <div id="notesTagFilterBar" class="flex items-center gap-2 overflow-x-auto pb-3 mb-4 custom-scroll">
+        <!-- Populated dynamically -->
+      </div>
+
+      <!-- Responsive Split Reader Layout (List on Left, High-Contrast Full Reader on Right) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Left Column: Note Cards List -->
+        <div id="notesListColumn" class="lg:col-span-5 space-y-3">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- Right Column: Spacious High-Contrast Reading Pane -->
+        <article
+          id="noteReaderPane"
+          class="hidden lg:block lg:col-span-7 bg-surface border border-charcoal/15 rounded-3xl p-6 sm:p-10 shadow-soft sticky top-24"
+        >
+          <!-- Mobile Back Button (visible on mobile when reading a note) -->
+          <button
+            id="mobileBackToNotesListBtn"
+            type="button"
+            class="lg:hidden inline-flex items-center gap-1.5 text-xs font-semibold text-sage bg-stone/70 hover:bg-stone px-3.5 py-2 rounded-full mb-5 transition-colors"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            <span>Back to all notes</span>
+          </button>
+
+          <div id="readerContentContainer">
+            <!-- Populated dynamically with crisp, high-contrast typography -->
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       PAGE 3: DEDICATED ORGANIC TO-DO LIST SANCTUARY
+  ======================================================================== -->
+  <section
+    id="todosView"
+    class="hidden fixed inset-0 z-10 overflow-y-auto custom-scroll pt-28 md:pt-24 pb-20 px-3 sm:px-8"
+  >
+    <div class="max-w-2xl mx-auto animate-fade-up">
+      
+      <!-- Header & Botanical Progress Card -->
+      <div class="bg-surface border border-charcoal/15 rounded-3xl p-6 sm:p-8 shadow-soft mb-6">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <span class="text-[11px] uppercase tracking-wider font-semibold text-sage">Daily Intentions</span>
+            <h1 class="font-serif text-2xl sm:text-3xl text-charcoal font-medium mt-1">Organic To-Do List</h1>
+            <p class="text-xs sm:text-sm text-lichen mt-1">Tend to your tasks calmly. Completed items automatically save and can be planted into your note garden.</p>
+          </div>
+
+          <div class="text-right bg-stone/60 border border-charcoal/10 rounded-2xl px-4 py-2.5">
+            <div id="todoProgressFraction" class="font-serif text-xl font-medium text-charcoal">0 / 0</div>
+            <div class="text-[11px] font-medium text-lichen">tended today</div>
+          </div>
+        </div>
+
+        <!-- Smooth Botanical Progress Bar -->
+        <div class="w-full h-2 bg-stone rounded-full overflow-hidden mt-5">
+          <div id="todoProgressBar" class="h-full bg-sage rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Add New Task Form -->
+      <form id="addTodoForm" class="bg-surface border border-charcoal/15 rounded-3xl p-3 sm:p-4 shadow-soft mb-6">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+          <input
+            id="newTodoInput"
+            type="text"
+            placeholder="What would you like to tend to next?"
+            class="flex-1 bg-transparent px-3 py-2 text-sm sm:text-base text-charcoal placeholder-lichen outline-none"
+          />
+
+          <div class="flex items-center justify-between sm:justify-end gap-2 pt-2 sm:pt-0 border-t sm:border-t-0 border-charcoal/10">
+            <!-- Category / Essence Selector -->
+            <select
+              id="newTodoCategory"
+              aria-label="Task category"
+              class="bg-stone/70 border border-charcoal/10 rounded-full px-3 py-2 text-xs font-medium text-charcoal outline-none cursor-pointer"
+            >
+              <option value="Focus">🌿 Focus</option>
+              <option value="Ideas">🍂 Ideas</option>
+              <option value="Reading">📖 Reading</option>
+              <option value="Personal">🪨 Personal</option>
+            </select>
+
+            <button
+              type="submit"
+              class="bg-sage hover:bg-charcoal text-linen rounded-full px-5 py-2 text-xs font-medium shadow-sm transition-all active:scale-95 flex items-center gap-1.5"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" d="M12 5v14M5 12h14"></path>
+              </svg>
+              <span>Add Task</span>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Filter Tabs & Clear Completed -->
+      <div class="flex items-center justify-between gap-2 mb-4 px-1">
+        <div class="flex items-center gap-1.5">
+          <button type="button" data-todo-filter="all" class="todo-filter-btn active px-3.5 py-1.5 rounded-full text-xs font-medium bg-charcoal text-linen transition-colors">All</button>
+          <button type="button" data-todo-filter="active" class="todo-filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium bg-surface/90 text-charcoal hover:bg-surface border border-charcoal/15 transition-colors">Active</button>
+          <button type="button" data-todo-filter="completed" class="todo-filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium bg-surface/90 text-charcoal hover:bg-surface border border-charcoal/15 transition-colors">Completed</button>
+        </div>
+
+        <button
+          id="clearCompletedTodosBtn"
+          type="button"
+          class="hidden text-xs font-medium text-lichen hover:text-terracotta transition-colors px-2 py-1"
+        >
+          Clear completed
+        </button>
+      </div>
+
+      <!-- To-Do Items List -->
+      <div id="todoListContainer" class="space-y-2.5">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast Notification Pill -->
+  <div
+    id="toastPill"
+    class="fixed bottom-16 sm:bottom-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-2 transition-all duration-300 bg-charcoal text-linen text-xs font-medium px-4 py-2.5 rounded-full shadow-float flex items-center gap-2"
+  >
+    <span id="toastDot" class="w-2 h-2 rounded-full bg-sage"></span>
+    <span id="toastMessage">Auto-saved</span>
+  </div>
+
+  <!-- =======================================================================
+       SLIDE-OVER EDITORIAL NOTE EDITOR DRAWER (Works from both Garden & Notes)
+  ======================================================================== -->
+  <aside
+    id="noteDrawer"
+    aria-label="Note Editor"
+    class="fixed top-0 right-0 bottom-0 w-full sm:w-[460px] md:w-[500px] z-40 bg-surface border-l border-charcoal/15 shadow-float transform translate-x-full drawer-transition flex flex-col"
+  >
+    <!-- Drawer Top Bar -->
+    <div class="px-5 sm:px-6 pt-5 sm:pt-6 pb-4 border-b border-charcoal/10 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <span id="drawerEssenceDot" class="w-3 h-3 rounded-full bg-sage transition-colors"></span>
+        <span id="drawerStatusLabel" class="text-xs font-semibold text-charcoal">Editing Thought</span>
+      </div>
+
+      <div class="flex items-center gap-1.5">
+        <!-- Delete Note Trigger -->
+        <button
+          id="deletePromptBtn"
+          title="Remove note"
+          class="p-2.5 rounded-full text-lichen hover:text-red-700 hover:bg-red-50 transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+        </button>
+
+        <!-- Close Drawer -->
+        <button
+          id="closeDrawerBtn"
+          title="Close editor"
+          class="p-2.5 rounded-full text-charcoal hover:bg-stone transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Inline Delete Confirmation Banner (replaces confirm()) -->
+    <div id="deleteConfirmBar" class="hidden bg-red-500/10 border-b border-red-500/25 px-6 py-3 flex items-center justify-between gap-3">
+      <span class="text-xs text-red-600 dark:text-red-400 font-semibold">Release this note from your garden?</span>
+      <div class="flex items-center gap-2">
+        <button id="cancelDeleteBtn" class="px-3.5 py-1.5 rounded-full text-xs font-medium text-charcoal bg-surface border border-charcoal/15 transition-colors">Keep</button>
+        <button id="confirmDeleteBtn" class="px-3.5 py-1.5 rounded-full text-xs font-medium bg-red-700 text-white hover:bg-red-800 transition-colors">Release</button>
+      </div>
+    </div>
+
+    <!-- Drawer Scrollable Form Area -->
+    <div class="flex-1 overflow-y-auto custom-scroll px-5 sm:px-6 py-6 space-y-6">
+      
+      <!-- Botanical Essence (Node Color) Picker -->
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] uppercase tracking-wider font-semibold text-lichen">Botanical Essence</span>
+        <div id="essencePicker" class="flex items-center gap-2.5">
+          <button type="button" data-color="#2F5747" data-name="Sage" class="essence-btn w-6 h-6 rounded-full bg-[#2F5747] ring-2 ring-offset-2 ring-charcoal/50 transition-transform hover:scale-110" title="Sage"></button>
+          <button type="button" data-color="#B8683E" data-name="Terracotta" class="essence-btn w-6 h-6 rounded-full bg-[#B8683E] ring-offset-2 transition-transform hover:scale-110" title="Terracotta"></button>
+          <button type="button" data-color="#A37B35" data-name="Ochre" class="essence-btn w-6 h-6 rounded-full bg-[#A37B35] ring-offset-2 transition-transform hover:scale-110" title="Ochre"></button>
+          <button type="button" data-color="#435869" data-name="Slate" class="essence-btn w-6 h-6 rounded-full bg-[#435869] ring-offset-2 transition-transform hover:scale-110" title="Slate"></button>
+          <button type="button" data-color="#6E4B59" data-name="Plum" class="essence-btn w-6 h-6 rounded-full bg-[#6E4B59] ring-offset-2 transition-transform hover:scale-110" title="Plum"></button>
+        </div>
+      </div>
+
+      <!-- Group / Grove Assignment -->
+      <div class="bg-stone/45 border border-charcoal/10 rounded-2xl p-3.5 space-y-2.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] uppercase tracking-wider font-semibold text-lichen">Note Group</span>
+          <button
+            id="clearNoteGroupBtn"
+            type="button"
+            class="hidden text-[11px] font-medium text-lichen hover:text-terracotta transition-colors"
+          >
+            Remove from group
+          </button>
+        </div>
+        <input
+          id="noteGroupInput"
+          type="text"
+          placeholder="Assign or type a group name (e.g. Design & Form)..."
+          class="w-full bg-surface border border-charcoal/15 focus:border-sage rounded-xl px-3 py-2 text-xs font-medium text-charcoal placeholder-lichen/70 outline-none transition-colors"
+        />
+        <div id="drawerGroupPills" class="flex flex-wrap gap-1.5">
+          <!-- Populated dynamically with existing group pills -->
+        </div>
+      </div>
+
+      <!-- Note Title Input -->
+      <div>
+        <input
+          id="noteTitleInput"
+          type="text"
+          placeholder="Untitled Thought..."
+          class="w-full bg-transparent font-serif text-2xl sm:text-3xl font-medium text-charcoal placeholder-lichen/60 outline-none border-b border-charcoal/10 focus:border-sage pb-2 transition-colors"
+        />
+      </div>
+
+      <!-- Note Content Textarea (High-contrast legible typography) -->
+      <div>
+        <textarea
+          id="noteBodyInput"
+          rows="9"
+          placeholder="Write freely... Add #tags like #architecture or weave direct links using [[Note Title]]. Everything saves automatically."
+          class="w-full bg-transparent text-[15px] sm:text-base leading-relaxed text-charcoal placeholder-lichen/65 outline-none resize-none"
+        ></textarea>
+      </div>
+
+      <!-- Quick Connect / Weave Link Pills -->
+      <div class="pt-3 border-t border-charcoal/10">
+        <div class="flex items-center justify-between mb-2.5">
+          <span class="text-[11px] uppercase tracking-wider font-semibold text-lichen">Weave Link to Existing Note</span>
+          <span class="text-[11px] text-lichen">Tap to insert [[link]]</span>
+        </div>
+        <div id="quickLinkChips" class="flex flex-wrap gap-2">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Active Organic Connections List for this Note -->
+      <div class="pt-3 border-t border-charcoal/10">
+        <div class="text-[11px] uppercase tracking-wider font-semibold text-lichen mb-2.5">
+          Living Connections (<span id="activeConnCount">0</span>)
+        </div>
+        <div id="activeConnectionsList" class="space-y-2">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Drawer Footer Actions -->
+    <div class="px-5 sm:px-6 py-4 bg-stone/60 border-t border-charcoal/10 flex items-center justify-between gap-3">
+      <span id="lastSavedText" class="text-xs font-medium text-sage flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-sage"></span>
+        <span>Saved automatically</span>
+      </span>
+      <button
+        id="saveNoteBtn"
+        class="bg-charcoal hover:bg-sage text-linen rounded-full px-5 py-2.5 text-xs font-medium shadow-soft transition-all duration-300 flex items-center gap-2 active:scale-95"
+      >
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span>Done</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- =======================================================================
+       MODAL: CREATE OR MANAGE NOTE GROUPS (ORGANIC GROVES)
+  ======================================================================== -->
+  <div
+    id="groupModal"
+    class="hidden fixed inset-0 z-50 bg-black/45 backdrop-blur-xs flex items-center justify-center p-4"
+  >
+    <div class="bg-surface border border-charcoal/15 rounded-3xl shadow-float w-full max-w-md overflow-hidden animate-fade-up">
+      <!-- Modal Header -->
+      <div class="px-6 pt-5 pb-4 border-b border-charcoal/10 flex items-center justify-between">
+        <div>
+          <span class="text-[11px] uppercase tracking-wider font-semibold text-sage">Organic Grouping</span>
+          <h2 class="font-serif text-xl sm:text-2xl font-medium text-charcoal">Group Notes Together</h2>
+        </div>
+        <button
+          id="closeGroupModalBtn"
+          type="button"
+          class="p-2 rounded-full text-charcoal hover:bg-stone transition-colors"
+          title="Close"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="px-6 py-5 space-y-4 max-h-[70vh] overflow-y-auto custom-scroll">
+        <!-- Existing Groups Quick Switcher -->
+        <div id="existingGroupsSection" class="hidden space-y-1.5">
+          <label class="block text-[11px] uppercase tracking-wider font-semibold text-lichen">Existing Groups (Tap to edit)</label>
+          <div id="modalExistingGroupChips" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- Group Name Input -->
+        <div>
+          <label for="groupNameInput" class="block text-[11px] uppercase tracking-wider font-semibold text-lichen mb-1.5">Group Name</label>
+          <input
+            id="groupNameInput"
+            type="text"
+            placeholder="e.g., Design & Form, Core Philosophy..."
+            class="w-full bg-linen border border-charcoal/15 focus:border-sage rounded-2xl px-4 py-2.5 text-sm text-charcoal placeholder-lichen/65 outline-none transition-colors"
+          />
+        </div>
+
+        <!-- Select Notes to Include -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[11px] uppercase tracking-wider font-semibold text-lichen">Select Notes for Group</span>
+            <span id="selectedGroupNotesCount" class="text-xs font-semibold text-sage">0 selected</span>
+          </div>
+          <div id="groupNotesChecklist" class="space-y-1.5 max-h-56 overflow-y-auto custom-scroll pr-1">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-4 bg-stone/55 border-t border-charcoal/10 flex items-center justify-between gap-2">
+        <button
+          id="dissolveGroupBtn"
+          type="button"
+          class="hidden px-3.5 py-2 rounded-full text-xs font-medium text-red-700 hover:bg-red-50 transition-colors"
+        >
+          Ungroup All
+        </button>
+        <div class="ml-auto flex items-center gap-2">
+          <button
+            id="cancelGroupModalBtn"
+            type="button"
+            class="px-4 py-2 rounded-full text-xs font-medium text-charcoal bg-surface border border-charcoal/15 hover:bg-stone transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            id="applyGroupBtn"
+            type="button"
+            class="px-5 py-2 rounded-full text-xs font-medium bg-charcoal hover:bg-sage text-linen shadow-soft transition-colors"
+          >
+            Save Group
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    /**
+     * JACOB'S GARDEN — Organic Note Sanctuary, Editorial Reader & To-Do List
+     * Features Light & Dark botanical themes, automatic persistence (Cloud Firestore + LocalStorage),
+     * high-contrast typography, organic grouping, and mobile/Google-Sites-friendly touch & pinch-to-zoom controls.
+     */
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // =========================================================================
+    // 1. THEME MANAGEMENT & STORAGE KEYS
+    // =========================================================================
+    const THEME_STORAGE_KEY = 'jacobs_garden_theme_v1';
+    const LOCAL_NOTES_KEY = 'jacobs_garden_notes_v2';
+    const LOCAL_TODOS_KEY = 'jacobs_garden_todos_v2';
+
+    let currentTheme = 'light';
+    try {
+      const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+      if (savedTheme === 'dark' || savedTheme === 'light') {
+        currentTheme = savedTheme;
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        currentTheme = 'dark';
+      }
+    } catch (_) {}
+
+    function applyTheme(theme) {
+      currentTheme = theme === 'dark' ? 'dark' : 'light';
+      if (currentTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      try {
+        localStorage.setItem(THEME_STORAGE_KEY, currentTheme);
+      } catch (_) {}
+
+      const moonIcon = document.getElementById('themeIconMoon');
+      const sunIcon = document.getElementById('themeIconSun');
+      const label = document.getElementById('themeToggleLabel');
+      if (moonIcon && sunIcon) {
+        moonIcon.classList.toggle('hidden', currentTheme === 'dark');
+        sunIcon.classList.toggle('hidden', currentTheme !== 'dark');
+      }
+      if (label) {
+        label.textContent = currentTheme === 'dark' ? 'Light' : 'Dark';
+      }
+    }
+
+    // Lift deep botanical colors in Dark Mode so nodes glow legibly against dark moss
+    function getThemeNodeColor(hex) {
+      if (currentTheme !== 'dark') return hex || '#2F5747';
+      const darkPaletteMap = {
+        '#2f5747': '#67A889',
+        '#b8683e': '#E28C5D',
+        '#a37b35': '#D4A857',
+        '#435869': '#789EC0',
+        '#6e4b59': '#B67D94'
+      };
+      return darkPaletteMap[(hex || '').toLowerCase()] || hex || '#67A889';
+    }
+
+    applyTheme(currentTheme);
+
+    document.getElementById('themeToggleBtn')?.addEventListener('click', () => {
+      const next = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      showToast(
+        next === 'dark' ? 'Switched to Dark Garden theme' : 'Switched to Light Linen theme',
+        next === 'dark' ? '#67A889' : '#2F5747'
+      );
+    });
+
+    // =========================================================================
+    // 2. INITIAL SEED DATA (BOTANICAL GARDEN THOUGHTS & DAILY INTENTIONS)
+    // =========================================================================
+    const SEED_NOTES = [
+      {
+        id: 'note-1',
+        title: 'Digital Gardening',
+        body: 'Unlike rigid folders or chronological streams, a digital garden lets ideas grow slowly over time.\n\nThoughts are planted as seeds, pruned through reflection, and woven together with [[Biophilic Architecture]] and [[Slow Thinking]]. #ecology #curation',
+        color: '#2F5747',
+        group: 'Core Philosophy',
+        x: -150,
+        y: -70,
+        vx: 0,
+        vy: 0,
+        phase: 0.2,
+        updatedAt: Date.now() - 3600000
+      },
+      {
+        id: 'note-2',
+        title: 'Biophilic Architecture',
+        body: 'Spaces designed with natural light, warm timber, and organic curves calm the nervous system and invite effortless focus.\n\nInspired by [[Quiet Geometry]] and [[Digital Gardening]]. #ecology #design',
+        color: '#B8683E',
+        group: 'Design & Form',
+        x: 165,
+        y: -85,
+        vx: 0,
+        vy: 0,
+        phase: 1.4,
+        updatedAt: Date.now() - 7200000
+      },
+      {
+        id: 'note-3',
+        title: 'Slow Thinking',
+        body: 'Depth emerges when we give ideas room to breathe rather than rushing toward immediate conclusions.\n\nPair morning walks with [[Morning Rituals]] to let subconscious connections surface. #curation #mindfulness',
+        color: '#435869',
+        group: 'Core Philosophy',
+        x: -180,
+        y: 120,
+        vx: 0,
+        vy: 0,
+        phase: 2.7,
+        updatedAt: Date.now() - 10800000
+      },
+      {
+        id: 'note-4',
+        title: 'Quiet Geometry',
+        body: 'Minimalism is not emptiness; it is the careful removal of noise so essential proportions can speak.\n\nConnects directly to [[Biophilic Architecture]] and tactile paper surfaces. #design #craft',
+        color: '#A37B35',
+        group: 'Design & Form',
+        x: 185,
+        y: 115,
+        vx: 0,
+        vy: 0,
+        phase: 3.9,
+        updatedAt: Date.now() - 14400000
+      },
+      {
+        id: 'note-5',
+        title: 'Morning Rituals',
+        body: 'Before opening any screen, spend twenty quiet minutes with tea, sunlight, and a blank page.\n\nSupports [[Slow Thinking]] and clarifies creative priorities. #mindfulness #ritual',
+        color: '#6E4B59',
+        group: '',
+        x: 0,
+        y: 195,
+        vx: 0,
+        vy: 0,
+        phase: 5.1,
+        updatedAt: Date.now() - 18000000
+      }
+    ];
+
+    const SEED_TODOS = [
+      {
+        id: 'todo-1',
+        text: 'Tend to morning notes and link new reading highlights',
+        category: 'Focus',
+        completed: false,
+        createdAt: Date.now() - 500000
+      },
+      {
+        id: 'todo-2',
+        text: 'Organize architecture & design thoughts into a shared grove',
+        category: 'Ideas',
+        completed: false,
+        createdAt: Date.now() - 400000
+      },
+      {
+        id: 'todo-3',
+        text: 'Take a 15-minute screen-free walk outside',
+        category: 'Personal',
+        completed: true,
+        createdAt: Date.now() - 900000
+      }
+    ];
+
+    // =========================================================================
+    // 3. WORKSPACE STATE & CANVAS VARIABLES
+    // =========================================================================
+    let notes = [];
+    let todos = [];
+    let connections = [];
+    let motes = [];
+    let ripples = [];
+
+    const camera = {
+      x: 0,
+      y: 0,
+      zoom: 1,
+      targetZoom: 1
+    };
+
+    let selectedNoteId = null;
+    let hoveredNoteId = null;
+    let hoveredConnection = null;
+    let draggingNoteId = null;
+    let isPanning = false;
+    let panStart = { x: 0, y: 0 };
+    let cameraStart = { x: 0, y: 0 };
+    let pointerDownPos = { x: 0, y: 0 };
+    let pointerMoved = false;
+    let lastTapTime = 0;
+    let pinchStartDist = null;
+    let pinchStartZoom = 1;
+
+    let gardenSearchQuery = '';
+    let activeEditorColor = '#2F5747';
+    let groupClusteringEnabled = true;
+
+    let activePage = 'garden';
+    let readerSelectedNoteId = null;
+    let notesSearchQuery = '';
+    let notesSelectedTag = 'all';
+    let todoFilter = 'all';
+
+    // =========================================================================
+    // 4. DOM ELEMENT REFERENCES
+    // =========================================================================
+    const canvas = document.getElementById('gardenCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+
+    const syncStatusText = document.getElementById('syncStatusText');
+    const syncStatusDot = document.getElementById('syncStatusDot');
+
+    const gardenView = document.getElementById('gardenView');
+    const notesView = document.getElementById('notesView');
+    const todosView = document.getElementById('todosView');
+    const harmonizeBtn = document.getElementById('harmonizeBtn');
+    const gardenToolbar = document.getElementById('gardenToolbar');
+
+    const connectionTooltip = document.getElementById('connectionTooltip');
+    const connectionTooltipText = document.getElementById('connectionTooltipText');
+
+    // Note Editor Drawer
+    const noteDrawer = document.getElementById('noteDrawer');
+    const drawerEssenceDot = document.getElementById('drawerEssenceDot');
+    const drawerStatusLabel = document.getElementById('drawerStatusLabel');
+    const noteTitleInput = document.getElementById('noteTitleInput');
+    const noteBodyInput = document.getElementById('noteBodyInput');
+    const noteGroupInput = document.getElementById('noteGroupInput');
+    const clearNoteGroupBtn = document.getElementById('clearNoteGroupBtn');
+    const drawerGroupPills = document.getElementById('drawerGroupPills');
+    const quickLinkChips = document.getElementById('quickLinkChips');
+    const activeConnectionsList = document.getElementById('activeConnectionsList');
+    const activeConnCount = document.getElementById('activeConnCount');
+    const lastSavedText = document.getElementById('lastSavedText');
+    const deleteConfirmBar = document.getElementById('deleteConfirmBar');
+
+    // Group Modal
+    const groupModal = document.getElementById('groupModal');
+    const groupNameInput = document.getElementById('groupNameInput');
+    const groupNotesChecklist = document.getElementById('groupNotesChecklist');
+    const selectedGroupNotesCount = document.getElementById('selectedGroupNotesCount');
+    const existingGroupsSection = document.getElementById('existingGroupsSection');
+    const modalExistingGroupChips = document.getElementById('modalExistingGroupChips');
+    const dissolveGroupBtn = document.getElementById('dissolveGroupBtn');
+
+    // =========================================================================
+    // 5. AUTOMATIC CLOUD & LOCAL PERSISTENCE
+    // =========================================================================
+    let db = null;
+    let currentUser = null;
+    let isApplyingRemote = false;
+    let autoSaveTimer = null;
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'jacobs-garden-default';
+
+    function setSyncBadge(state, label) {
+      if (!syncStatusText || !syncStatusDot) return;
+      syncStatusText.textContent = label;
+      if (state === 'saving') {
+        syncStatusDot.className = 'w-1.5 h-1.5 rounded-full bg-ochre animate-pulse';
+      } else {
+        syncStatusDot.className = 'w-1.5 h-1.5 rounded-full bg-sage';
+      }
+    }
+
+    function saveToLocalStorage() {
+      try {
+        const cleanNotes = notes.map(n => ({
+          id: n.id,
+          title: n.title,
+          body: n.body,
+          color: n.color,
+          group: n.group || '',
+          x: Math.round(n.x * 10) / 10,
+          y: Math.round(n.y * 10) / 10,
+          phase: n.phase || 0,
+          updatedAt: n.updatedAt || Date.now()
+        }));
+        localStorage.setItem(LOCAL_NOTES_KEY, JSON.stringify(cleanNotes));
+        localStorage.setItem(LOCAL_TODOS_KEY, JSON.stringify(todos));
+      } catch (_) {}
+    }
+
+    function loadFromLocalStorage() {
+      try {
+        const rawNotes = localStorage.getItem(LOCAL_NOTES_KEY);
+        const rawTodos = localStorage.getItem(LOCAL_TODOS_KEY);
+        if (rawNotes) {
+          const parsedNotes = JSON.parse(rawNotes);
+          if (Array.isArray(parsedNotes) && parsedNotes.length > 0) {
+            notes = parsedNotes.map((n, idx) => ({
+              ...n,
+              group: n.group || '',
+              vx: 0,
+              vy: 0,
+              phase: typeof n.phase === 'number' ? n.phase : idx * 1.1
+            }));
+          }
+        }
+        if (rawTodos) {
+          const parsedTodos = JSON.parse(rawTodos);
+          if (Array.isArray(parsedTodos)) {
+            todos = parsedTodos;
+          }
+        }
+      } catch (_) {}
+
+      if (notes.length === 0) {
+        notes = SEED_NOTES.map(n => ({ ...n }));
+      }
+      if (todos.length === 0) {
+        todos = SEED_TODOS.map(t => ({ ...t }));
+      }
+    }
+
+    async function persistImmediately() {
+      saveToLocalStorage();
+      if (db && currentUser && !isApplyingRemote) {
+        try {
+          const workspaceRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'workspace', 'state');
+          const cleanNotes = notes.map(n => ({
+            id: n.id,
+            title: n.title,
+            body: n.body,
+            color: n.color,
+            group: n.group || '',
+            x: Math.round(n.x * 10) / 10,
+            y: Math.round(n.y * 10) / 10,
+            phase: n.phase || 0,
+            updatedAt: n.updatedAt || Date.now()
+          }));
+          await setDoc(workspaceRef, {
+            notes: cleanNotes,
+            todos,
+            updatedAt: Date.now()
+          });
+        } catch (err) {
+          console.warn('Cloud sync fallback to local storage:', err);
+        }
+      }
+      setSyncBadge('saved', 'Auto-saved');
+      if (lastSavedText) {
+        lastSavedText.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-sage"></span><span>Saved automatically</span>`;
+      }
+    }
+
+    function scheduleAutoSave() {
+      setSyncBadge('saving', 'Saving...');
+      if (lastSavedText) {
+        lastSavedText.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-ochre animate-pulse"></span><span>Saving...</span>`;
+      }
+      saveToLocalStorage();
+      clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(() => {
+        persistImmediately();
+      }, 450);
+    }
+
+    async function initPersistence() {
+      loadFromLocalStorage();
+      rebuildConnections();
+      updateNavigationCounts();
+
+      try {
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+          const firebaseConfig = JSON.parse(__firebase_config);
+          const app = initializeApp(firebaseConfig);
+          const auth = getAuth(app);
+          db = getFirestore(app);
+
+          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+            await signInWithCustomToken(auth, __initial_auth_token);
+          } else {
+            await signInAnonymously(auth);
+          }
+
+          onAuthStateChanged(auth, (user) => {
+            if (!user) return;
+            currentUser = user;
+            const workspaceRef = doc(db, 'artifacts', appId, 'users', user.uid, 'workspace', 'state');
+            onSnapshot(workspaceRef, (snap) => {
+              if (!snap.exists()) {
+                persistImmediately();
+                return;
+              }
+              const data = snap.data();
+              isApplyingRemote = true;
+              if (Array.isArray(data.notes) && data.notes.length > 0) {
+                const posMap = new Map(notes.map(n => [n.id, { x: n.x, y: n.y, vx: n.vx, vy: n.vy }]));
+                notes = data.notes.map((n, idx) => {
+                  const prev = posMap.get(n.id);
+                  return {
+                    ...n,
+                    group: n.group || '',
+                    x: draggingNoteId === n.id && prev ? prev.x : n.x,
+                    y: draggingNoteId === n.id && prev ? prev.y : n.y,
+                    vx: prev ? prev.vx : 0,
+                    vy: prev ? prev.vy : 0,
+                    phase: typeof n.phase === 'number' ? n.phase : idx * 1.1
+                  };
+                });
+              }
+              if (Array.isArray(data.todos)) {
+                todos = data.todos;
+              }
+              rebuildConnections();
+              updateNavigationCounts();
+              if (activePage === 'notes') renderNotesPage();
+              if (activePage === 'todos') renderTodosPage();
+              isApplyingRemote = false;
+              setSyncBadge('saved', 'Auto-saved');
+            });
+          });
+        }
+      } catch (err) {
+        console.warn('Running in offline local auto-save mode:', err);
+      }
+    }
+
+    // =========================================================================
+    // 6. ORGANIC CONNECTION ENGINE (#TAGS, [[WIKI LINKS]] & SHARED CONCEPTS)
+    // =========================================================================
+    function extractTags(text) {
+      const matches = (text || '').match(/#[a-zA-Z0-9_-]+/g) || [];
+      return [...new Set(matches.map(t => t.toLowerCase()))];
+    }
+
+    function extractDirectLinks(text) {
+      const links = [];
+      const regex = /\[\[([^\]]+)\]\]/g;
+      let match;
+      while ((match = regex.exec(text || '')) !== null) {
+        links.push(match[1].trim().toLowerCase());
+      }
+      return [...new Set(links)];
+    }
+
+    function rebuildConnections() {
+      const prevGrowth = new Map(connections.map(c => [c.id, c.growth]));
+      const nextConnections = [];
+
+      for (let i = 0; i < notes.length; i++) {
+        for (let j = i + 1; j < notes.length; j++) {
+          const a = notes[i];
+          const b = notes[j];
+
+          const tagsA = extractTags(`${a.title} ${a.body}`);
+          const tagsB = extractTags(`${b.title} ${b.body}`);
+          const sharedTags = tagsA.filter(t => tagsB.includes(t));
+
+          const linksA = extractDirectLinks(a.body);
+          const linksB = extractDirectLinks(b.body);
+          const titleA = (a.title || '').trim().toLowerCase();
+          const titleB = (b.title || '').trim().toLowerCase();
+
+          const aLinksB = titleB && linksA.includes(titleB);
+          const bLinksA = titleA && linksB.includes(titleA);
+          const isDirectLink = aLinksB || bLinksA;
+
+          const sameGroup =
+            (a.group || '').trim() &&
+            (a.group || '').trim().toLowerCase() === (b.group || '').trim().toLowerCase();
+
+          if (sharedTags.length > 0 || isDirectLink || sameGroup) {
+            const id = `${a.id}__${b.id}`;
+            const reasons = [];
+            if (isDirectLink) reasons.push('Direct [[link]]');
+            if (sharedTags.length > 0) reasons.push(`Shared ${sharedTags.join(', ')}`);
+            if (sameGroup) reasons.push(`Group: ${a.group.trim()}`);
+
+            const seedHash = (a.id.charCodeAt(a.id.length - 1) + b.id.charCodeAt(b.id.length - 1)) % 10;
+            nextConnections.push({
+              id,
+              source: a.id,
+              target: b.id,
+              isDirectLink,
+              sharedTags,
+              sameGroup,
+              reason: reasons.join(' • '),
+              strength: (isDirectLink ? 2.2 : 0) + sharedTags.length * 1.1 + (sameGroup ? 0.6 : 0),
+              growth: prevGrowth.has(id) ? prevGrowth.get(id) : 0.05,
+              curveSeed: (seedHash - 4.5) * 0.18
+            });
+          }
+        }
+      }
+
+      connections = nextConnections;
+    }
+
+    function doesNoteMatchFilter(note) {
+      if (!gardenSearchQuery) return true;
+      const q = gardenSearchQuery.toLowerCase();
+      return (
+        (note.title || '').toLowerCase().includes(q) ||
+        (note.body || '').toLowerCase().includes(q) ||
+        (note.group || '').toLowerCase().includes(q)
+      );
+    }
+
+    function getAllGroups() {
+      const map = new Map();
+      notes.forEach(n => {
+        const g = (n.group || '').trim();
+        if (!g) return;
+        map.set(g, (map.get(g) || 0) + 1);
+      });
+      return Array.from(map.entries()).map(([name, count]) => ({ name, count }));
+    }
+
+    // =========================================================================
+    // 7. LIVING SPRING & GROVE PHYSICS SIMULATION
+    // =========================================================================
+    function updatePhysics(dt, time) {
+      const noteMap = new Map(notes.map(n => [n.id, n]));
+
+      // Grow newly woven tendrils smoothly
+      connections.forEach(conn => {
+        if (conn.growth < 1) {
+          conn.growth = Math.min(1, conn.growth + dt * 1.8);
+        }
+      });
+
+      // Expand ripples
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const r = ripples[i];
+        r.radius += dt * 120;
+        r.alpha -= dt * 0.85;
+        if (r.alpha <= 0) ripples.splice(i, 1);
+      }
+
+      // Drift ambient botanical motes
+      motes.forEach(m => {
+        m.x += m.vx * dt * 20;
+        m.y += m.vy * dt * 20;
+        if (m.x < -700) m.x = 700;
+        if (m.x > 700) m.x = -700;
+        if (m.y < -500) m.y = 500;
+        if (m.y > 500) m.y = -500;
+      });
+
+      // Node-to-node gentle repulsion so pills never overlap uncomfortably
+      for (let i = 0; i < notes.length; i++) {
+        for (let j = i + 1; j < notes.length; j++) {
+          const a = notes[i];
+          const b = notes[j];
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const dist = Math.hypot(dx, dy) || 1;
+          const minDist = 148;
+          if (dist < minDist) {
+            const force = ((minDist - dist) / minDist) * 26 * dt;
+            const fx = (dx / dist) * force;
+            const fy = (dy / dist) * force;
+            if (a.id !== draggingNoteId) {
+              a.vx -= fx;
+              a.vy -= fy;
+            }
+            if (b.id !== draggingNoteId) {
+              b.vx += fx;
+              b.vy += fy;
+            }
+          }
+        }
+      }
+
+      // Spring equilibrium along connected tendrils
+      connections.forEach(conn => {
+        const a = noteMap.get(conn.source);
+        const b = noteMap.get(conn.target);
+        if (!a || !b) return;
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const dist = Math.hypot(dx, dy) || 1;
+        const idealDist = conn.sameGroup ? 165 : conn.isDirectLink ? 210 : 245;
+        const diff = dist - idealDist;
+        const springK = 0.45 * dt;
+        const fx = (dx / dist) * diff * springK;
+        const fy = (dy / dist) * diff * springK;
+
+        if (a.id !== draggingNoteId) {
+          a.vx += fx;
+          a.vy += fy;
+        }
+        if (b.id !== draggingNoteId) {
+          b.vx -= fx;
+          b.vy -= fy;
+        }
+      });
+
+      // Organic Group Grove cohesion
+      if (groupClusteringEnabled) {
+        const groups = new Map();
+        notes.forEach(n => {
+          const g = (n.group || '').trim();
+          if (!g) return;
+          if (!groups.has(g)) groups.set(g, []);
+          groups.get(g).push(n);
+        });
+
+        groups.forEach(members => {
+          if (members.length < 2) return;
+          let cx = 0;
+          let cy = 0;
+          members.forEach(m => {
+            cx += m.x;
+            cy += m.y;
+          });
+          cx /= members.length;
+          cy /= members.length;
+
+          members.forEach(m => {
+            if (m.id === draggingNoteId) return;
+            m.vx += (cx - m.x) * 0.22 * dt;
+            m.vy += (cy - m.y) * 0.22 * dt;
+          });
+        });
+      }
+
+      // Integrate velocities with damping & subtle breathing drift
+      notes.forEach(note => {
+        if (note.id === draggingNoteId) {
+          note.vx = 0;
+          note.vy = 0;
+          return;
+        }
+        // Very gentle center gravity so constellation stays anchored
+        note.vx += -note.x * 0.04 * dt;
+        note.vy += -note.y * 0.04 * dt;
+
+        // Subtle organic micro-sway
+        note.vx += Math.cos(time * 0.7 + note.phase) * 0.06;
+        note.vy += Math.sin(time * 0.6 + note.phase) * 0.06;
+
+        note.vx *= 0.88;
+        note.vy *= 0.88;
+
+        note.x += note.vx * dt * 12;
+        note.y += note.vy * dt * 12;
+      });
+    }
+
+    function harmonizeConstellation() {
+      const count = notes.length;
+      if (count === 0) return;
+
+      // Group-aware radial arrangement
+      const grouped = new Map();
+      const ungrouped = [];
+      notes.forEach(n => {
+        const g = (n.group || '').trim();
+        if (g) {
+          if (!grouped.has(g)) grouped.set(g, []);
+          grouped.get(g).push(n);
+        } else {
+          ungrouped.push(n);
+        }
+      });
+
+      const clusters = [...grouped.values(), ...ungrouped.map(n => [n])];
+      const clusterRadius = Math.max(170, clusters.length * 42);
+
+      clusters.forEach((cluster, cIdx) => {
+        const angle = (cIdx / clusters.length) * Math.PI * 2 - Math.PI / 2;
+        const cx = clusters.length === 1 ? 0 : Math.cos(angle) * clusterRadius;
+        const cy = clusters.length === 1 ? 0 : Math.sin(angle) * clusterRadius;
+
+        cluster.forEach((note, mIdx) => {
+          if (cluster.length === 1) {
+            note.vx += (cx - note.x) * 0.35;
+            note.vy += (cy - note.y) * 0.35;
+          } else {
+            const subAngle = (mIdx / cluster.length) * Math.PI * 2;
+            const subR = 68;
+            const tx = cx + Math.cos(subAngle) * subR;
+            const ty = cy + Math.sin(subAngle) * subR;
+            note.vx += (tx - note.x) * 0.35;
+            note.vy += (ty - note.y) * 0.35;
+          }
+          ripples.push({ x: note.x, y: note.y, radius: 12, alpha: 0.55, color: note.color });
+        });
+      });
+
+      camera.targetZoom = 1;
+      camera.x = 0;
+      camera.y = 0;
+      updateZoomLabel();
+      scheduleAutoSave();
+      showToast('Constellation harmonized', '#2F5747');
+    }
+
+    // =========================================================================
+    // 8. CANVAS GEOMETRY, RENDERING & ANIMATION LOOP
+    // =========================================================================
+    function initMotes() {
+      motes = [];
+      for (let i = 0; i < 42; i++) {
+        motes.push({
+          x: (Math.random() - 0.5) * 1400,
+          y: (Math.random() - 0.5) * 1000,
+          r: 1 + Math.random() * 1.8,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: -0.15 - Math.random() * 0.35,
+          alpha: 0.12 + Math.random() * 0.22
+        });
+      }
+    }
+
+    function resizeCanvas() {
+      const rect = canvas.parentElement?.getBoundingClientRect();
+      width = rect && rect.width > 0 ? rect.width : (document.documentElement.clientWidth || window.innerWidth);
+      height = rect && rect.height > 0 ? rect.height : (document.documentElement.clientHeight || window.innerHeight);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (motes.length === 0) {
+        initMotes();
+      }
+    }
+
+    function screenToWorld(sx, sy) {
+      const rect = canvas.getBoundingClientRect();
+      const cx = sx - rect.left;
+      const cy = sy - rect.top;
+      return {
+        x: (cx - width / 2 - camera.x) / camera.zoom,
+        y: (cy - height / 2 - camera.y) / camera.zoom
+      };
+    }
+
+    function getFilamentGeometry(a, b, conn) {
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const dist = Math.hypot(dx, dy) || 1;
+      const nx = -dy / dist;
+      const ny = dx / dist;
+      const offset = dist * (conn.curveSeed || 0.15);
+      return {
+        midX: (a.x + b.x) / 2 + nx * offset,
+        midY: (a.y + b.y) / 2 + ny * offset
+      };
+    }
+
+    function getQuadPoint(p0, p1, p2, t) {
+      const inv = 1 - t;
+      return {
+        x: inv * inv * p0.x + 2 * inv * t * p1.x + t * t * p2.x,
+        y: inv * inv * p0.y + 2 * inv * t * p1.y + t * t * p2.y
+      };
+    }
+
+    function roundRect(context, x, y, w, h, r) {
+      const radius = Math.min(r, w / 2, h / 2);
+      context.beginPath();
+      context.moveTo(x + radius, y);
+      context.arcTo(x + w, y, x + w, y + h, radius);
+      context.arcTo(x + w, y + h, x, y + h, radius);
+      context.arcTo(x, y + h, x, y, radius);
+      context.arcTo(x, y, x + w, y, radius);
+      context.closePath();
+    }
+
+    function hexToRgba(hex, alpha) {
+      const clean = (hex || '#2F5747').replace('#', '');
+      const full = clean.length === 3
+        ? clean.split('').map(c => c + c).join('')
+        : clean.padEnd(6, '0');
+      const num = parseInt(full, 16);
+      const r = (num >> 16) & 255;
+      const g = (num >> 8) & 255;
+      const b = num & 255;
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    function render(time) {
+      ctx.clearRect(0, 0, width, height);
+
+      // Smooth zoom interpolation
+      camera.zoom += (camera.targetZoom - camera.zoom) * 0.16;
+
+      ctx.save();
+      ctx.translate(width / 2 + camera.x, height / 2 + camera.y);
+      ctx.scale(camera.zoom, camera.zoom);
+
+      const noteMap = new Map(notes.map(n => [n.id, n]));
+      const focusId = hoveredNoteId || selectedNoteId;
+      const isDark = currentTheme === 'dark';
+
+      // 1. Render Ambient Spores / Motes
+      motes.forEach(m => {
+        ctx.beginPath();
+        ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
+        ctx.fillStyle = isDark
+          ? `rgba(103, 168, 137, ${m.alpha * 1.15})`
+          : `rgba(47, 87, 71, ${m.alpha})`;
+        ctx.fill();
+      });
+
+      // 1.5 Render Subtle Organic Group Membranes (Groves)
+      if (groupClusteringEnabled) {
+        const groupsMap = new Map();
+        notes.forEach(n => {
+          const gName = (n.group || '').trim();
+          if (!gName) return;
+          if (!groupsMap.has(gName)) groupsMap.set(gName, []);
+          groupsMap.get(gName).push(n);
+        });
+
+        groupsMap.forEach((members, groupName) => {
+          if (members.length === 0) return;
+          let cx = 0;
+          let cy = 0;
+          members.forEach(m => {
+            cx += m.x;
+            cy += m.y;
+          });
+          cx /= members.length;
+          cy /= members.length;
+
+          let maxDist = 0;
+          members.forEach(m => {
+            const d = Math.hypot(m.x - cx, m.y - cy);
+            if (d > maxDist) maxDist = d;
+          });
+
+          const breathe = Math.sin(time * 1.1 + cx * 0.01) * 3;
+          const groveRadius = maxDist + (members.length === 1 ? 54 : 68) + breathe;
+          const groveColor = getThemeNodeColor(members[0].color || '#2F5747');
+          const anyMatches = members.some(m => doesNoteMatchFilter(m));
+
+          ctx.save();
+          ctx.globalAlpha = anyMatches ? 1 : 0.25;
+
+          const groveGrad = ctx.createRadialGradient(cx, cy, 10, cx, cy, groveRadius);
+          groveGrad.addColorStop(0, hexToRgba(groveColor, isDark ? 0.06 : 0.04));
+          groveGrad.addColorStop(1, hexToRgba(groveColor, isDark ? 0.13 : 0.09));
+
+          ctx.beginPath();
+          ctx.arc(cx, cy, groveRadius, 0, Math.PI * 2);
+          ctx.fillStyle = groveGrad;
+          ctx.fill();
+
+          ctx.setLineDash([5, 5]);
+          ctx.lineWidth = 1.25;
+          ctx.strokeStyle = hexToRgba(groveColor, isDark ? 0.45 : 0.34);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          const badgeText = groupName.toUpperCase();
+          ctx.font = '600 10px "Inter", sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          const badgeW = ctx.measureText(badgeText).width + 20;
+          const badgeH = 20;
+          const badgeY = cy - groveRadius;
+
+          ctx.fillStyle = isDark ? 'rgba(24, 28, 25, 0.95)' : 'rgba(247, 245, 240, 0.96)';
+          roundRect(ctx, cx - badgeW / 2, badgeY - badgeH / 2, badgeW, badgeH, 10);
+          ctx.fill();
+
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = hexToRgba(groveColor, isDark ? 0.5 : 0.38);
+          ctx.stroke();
+
+          ctx.fillStyle = groveColor;
+          ctx.fillText(badgeText, cx, badgeY + 0.5);
+
+          ctx.restore();
+        });
+      }
+
+      // 2. Render Concentric Ripples
+      ripples.forEach(r => {
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = hexToRgba(getThemeNodeColor(r.color || '#2F5747'), r.alpha);
+        ctx.lineWidth = 1.6;
+        ctx.stroke();
+      });
+
+      // 3. Render Organic Connection Tendrils
+      connections.forEach(conn => {
+        const a = noteMap.get(conn.source);
+        const b = noteMap.get(conn.target);
+        if (!a || !b) return;
+
+        const isHighlighted =
+          focusId && (conn.source === focusId || conn.target === focusId);
+        const isHoveredConn = hoveredConnection && hoveredConnection.id === conn.id;
+        const matchesSearch =
+          doesNoteMatchFilter(a) && doesNoteMatchFilter(b);
+
+        let alpha = conn.isDirectLink ? 0.48 : 0.3;
+        if (!matchesSearch) alpha = 0.07;
+        else if (focusId) alpha = isHighlighted ? 0.85 : 0.14;
+        if (isHoveredConn) alpha = 0.95;
+
+        const { midX, midY } = getFilamentGeometry(a, b, conn);
+        const activeColor = getThemeNodeColor(a.color);
+
+        ctx.save();
+        ctx.beginPath();
+        const steps = 28;
+        const maxStep = Math.max(1, Math.floor(steps * conn.growth));
+        for (let s = 0; s <= maxStep; s++) {
+          const t = (s / steps) * conn.growth;
+          const pt = getQuadPoint(a, { x: midX, y: midY }, b, t);
+          if (s === 0) ctx.moveTo(pt.x, pt.y);
+          else ctx.lineTo(pt.x, pt.y);
+        }
+
+        if (!conn.isDirectLink && conn.strength < 1.5) {
+          ctx.setLineDash([4, 4]);
+        }
+
+        ctx.strokeStyle = isHighlighted || isHoveredConn
+          ? hexToRgba(activeColor, alpha)
+          : (isDark ? `rgba(237, 234, 226, ${alpha})` : `rgba(24, 25, 23, ${alpha})`);
+        ctx.lineWidth = (isHighlighted || isHoveredConn ? 2.1 : 1.35) + conn.strength * 0.16;
+        ctx.stroke();
+        ctx.restore();
+
+        if (conn.growth >= 0.98 && matchesSearch && (isHighlighted || conn.isDirectLink)) {
+          const pulseT = (time * 0.28 + conn.curveSeed + 1) % 1;
+          const droplet = getQuadPoint(a, { x: midX, y: midY }, b, pulseT);
+
+          ctx.beginPath();
+          ctx.arc(droplet.x, droplet.y, isHighlighted ? 3 : 2.1, 0, Math.PI * 2);
+          ctx.fillStyle = isHighlighted ? activeColor : (isDark ? '#67A889' : '#2F5747');
+          ctx.fill();
+        }
+      });
+
+      // 4. Render High-Contrast Organic Note Nodes & Clean Title Pills (No tags below titles)
+      notes.forEach(note => {
+        const isSelected = note.id === selectedNoteId;
+        const isHovered = note.id === hoveredNoteId;
+        const isConnectedToFocus =
+          focusId &&
+          connections.some(
+            c =>
+              (c.source === focusId && c.target === note.id) ||
+              (c.target === focusId && c.source === note.id)
+          );
+        const matchesSearch = doesNoteMatchFilter(note);
+
+        let nodeOpacity = 1;
+        if (!matchesSearch) nodeOpacity = 0.24;
+        else if (focusId && !isSelected && !isHovered && !isConnectedToFocus) {
+          nodeOpacity = 0.45;
+        }
+
+        const displayColor = getThemeNodeColor(note.color);
+        const breathe = Math.sin(time * 1.8 + note.phase) * 1.4;
+        const baseRadius = isSelected ? 13 : isHovered ? 12 : 10;
+        const auraRadius = baseRadius + 14 + breathe + (isHovered || isSelected ? 6 : 0);
+
+        ctx.save();
+        ctx.globalAlpha = nodeOpacity;
+
+        // Soft botanical halo
+        const gradient = ctx.createRadialGradient(
+          note.x, note.y, baseRadius * 0.4,
+          note.x, note.y, auraRadius
+        );
+        gradient.addColorStop(0, hexToRgba(displayColor, isSelected || isHovered ? 0.38 : 0.24));
+        gradient.addColorStop(1, hexToRgba(displayColor, 0));
+
+        ctx.beginPath();
+        ctx.arc(note.x, note.y, auraRadius, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        if (isSelected || isHovered) {
+          ctx.beginPath();
+          ctx.arc(note.x, note.y, baseRadius + 5.5, 0, Math.PI * 2);
+          ctx.strokeStyle = hexToRgba(displayColor, 0.75);
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+
+        // Paper-bordered seed core
+        ctx.beginPath();
+        ctx.arc(note.x, note.y, baseRadius, 0, Math.PI * 2);
+        ctx.fillStyle = isDark ? '#1B1F1C' : '#FFFFFF';
+        ctx.fill();
+        ctx.lineWidth = 2.8;
+        ctx.strokeStyle = displayColor;
+        ctx.stroke();
+
+        // Inner botanical nucleus
+        ctx.beginPath();
+        ctx.arc(note.x, note.y, baseRadius * 0.46, 0, Math.PI * 2);
+        ctx.fillStyle = displayColor;
+        ctx.fill();
+
+        // Crisp Editorial Title Label Pill beneath node
+        const titleText = note.title.trim() || 'Untitled Thought';
+        ctx.font = '500 14px "Newsreader", Georgia, serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+
+        const labelY = note.y + baseRadius + 10;
+        const textMetrics = ctx.measureText(titleText);
+        const pillW = textMetrics.width + 22;
+        const pillH = 25;
+
+        ctx.fillStyle = isDark ? 'rgba(27, 31, 28, 0.95)' : 'rgba(255, 255, 255, 0.96)';
+        roundRect(ctx, note.x - pillW / 2, labelY - 3, pillW, pillH, 12.5);
+        ctx.fill();
+
+        ctx.strokeStyle = isSelected || isHovered
+          ? displayColor
+          : (isDark ? 'rgba(237, 234, 226, 0.20)' : 'rgba(24, 25, 23, 0.16)');
+        ctx.lineWidth = isSelected || isHovered ? 1.5 : 1;
+        ctx.stroke();
+
+        ctx.fillStyle = isDark ? '#EDEAE2' : '#181917';
+        ctx.fillText(titleText, note.x, labelY + 2);
+
+        ctx.restore();
+      });
+
+      ctx.restore();
+    }
+
+    let lastFrameTime = performance.now();
+    function animateLoop(now) {
+      const dt = Math.min(0.05, (now - lastFrameTime) / 1000);
+      lastFrameTime = now;
+      const timeSec = now / 1000;
+
+      if (activePage === 'garden') {
+        updatePhysics(dt, timeSec);
+        render(timeSec);
+      }
+      requestAnimationFrame(animateLoop);
+    }
+
+    // =========================================================================
+    // 9. HIT DETECTION, MOUSE, TOUCH, PINCH-TO-ZOOM & ZOOM CONTROLS
+    // =========================================================================
+    function findNoteAtWorld(wx, wy) {
+      for (let i = notes.length - 1; i >= 0; i--) {
+        const n = notes[i];
+        const distNode = Math.hypot(wx - n.x, wy - n.y);
+        if (distNode <= 26) return n;
+        if (Math.abs(wx - n.x) <= 68 && wy >= n.y + 8 && wy <= n.y + 42) {
+          return n;
+        }
+      }
+      return null;
+    }
+
+    function findConnectionAtWorld(wx, wy) {
+      const noteMap = new Map(notes.map(n => [n.id, n]));
+      for (const conn of connections) {
+        const a = noteMap.get(conn.source);
+        const b = noteMap.get(conn.target);
+        if (!a || !b) continue;
+        const { midX, midY } = getFilamentGeometry(a, b, conn);
+        for (let s = 2; s < 18; s++) {
+          const t = s / 20;
+          const pt = getQuadPoint(a, { x: midX, y: midY }, b, t);
+          if (Math.hypot(wx - pt.x, wy - pt.y) < 12) {
+            return conn;
+          }
+        }
+      }
+      return null;
+    }
+
+    function handlePointerDown(clientX, clientY) {
+      pointerDownPos = { x: clientX, y: clientY };
+      pointerMoved = false;
+
+      const worldPt = screenToWorld(clientX, clientY);
+      const hitNote = findNoteAtWorld(worldPt.x, worldPt.y);
+
+      if (hitNote) {
+        draggingNoteId = hitNote.id;
+        hoveredNoteId = hitNote.id;
+      } else {
+        isPanning = true;
+        panStart = { x: clientX, y: clientY };
+        cameraStart = { x: camera.x, y: camera.y };
+      }
+    }
+
+    function handlePointerMove(clientX, clientY) {
+      const moveDist = Math.hypot(clientX - pointerDownPos.x, clientY - pointerDownPos.y);
+      if (moveDist > 5) pointerMoved = true;
+
+      const worldPt = screenToWorld(clientX, clientY);
+
+      if (draggingNoteId) {
+        const note = notes.find(n => n.id === draggingNoteId);
+        if (note) {
+          note.x = worldPt.x;
+          note.y = worldPt.y;
+        }
+        return;
+      }
+
+      if (isPanning) {
+        camera.x = cameraStart.x + (clientX - panStart.x);
+        camera.y = cameraStart.y + (clientY - panStart.y);
+        return;
+      }
+
+      const hitNote = findNoteAtWorld(worldPt.x, worldPt.y);
+      hoveredNoteId = hitNote ? hitNote.id : null;
+
+      if (!hitNote) {
+        const hitConn = findConnectionAtWorld(worldPt.x, worldPt.y);
+        hoveredConnection = hitConn;
+        if (hitConn && connectionTooltip && connectionTooltipText) {
+          connectionTooltipText.textContent = hitConn.reason;
+          connectionTooltip.style.left = `${Math.min(width - 220, Math.max(12, clientX + 14))}px`;
+          connectionTooltip.style.top = `${Math.max(70, clientY - 34)}px`;
+          connectionTooltip.style.opacity = '1';
+        } else if (connectionTooltip) {
+          connectionTooltip.style.opacity = '0';
+        }
+      } else {
+        hoveredConnection = null;
+        if (connectionTooltip) connectionTooltip.style.opacity = '0';
+      }
+
+      canvas.style.cursor = hitNote ? 'pointer' : 'grab';
+    }
+
+    function handlePointerUp(clientX, clientY) {
+      if (draggingNoteId) {
+        if (pointerMoved) {
+          scheduleAutoSave();
+        } else {
+          openNoteDrawer(draggingNoteId);
+        }
+        draggingNoteId = null;
+      } else if (isPanning) {
+        isPanning = false;
+      }
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      handlePointerDown(e.clientX, e.clientY);
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (activePage !== 'garden') return;
+      handlePointerMove(e.clientX, e.clientY);
+    });
+
+    window.addEventListener('mouseup', (e) => {
+      if (activePage !== 'garden') return;
+      handlePointerUp(e.clientX, e.clientY);
+    });
+
+    canvas.addEventListener('dblclick', (e) => {
+      const worldPt = screenToWorld(e.clientX, e.clientY);
+      const hitNote = findNoteAtWorld(worldPt.x, worldPt.y);
+      if (!hitNote) {
+        createNewNoteAt(worldPt.x, worldPt.y);
+      }
+    });
+
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const factor = e.deltaY < 0 ? 1.1 : 0.91;
+      camera.targetZoom = Math.min(2.2, Math.max(0.45, camera.targetZoom * factor));
+      updateZoomLabel();
+    }, { passive: false });
+
+    // Touch Events (Mobile Pan, Node Drag, Two-Finger Pinch-to-Zoom & Double-Tap to Plant)
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 2) {
+        draggingNoteId = null;
+        isPanning = false;
+        const t1 = e.touches[0];
+        const t2 = e.touches[1];
+        pinchStartDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+        pinchStartZoom = camera.targetZoom;
+        return;
+      }
+      if (e.touches.length === 1) {
+        pinchStartDist = null;
+        const t = e.touches[0];
+        handlePointerDown(t.clientX, t.clientY);
+      }
+    }, { passive: true });
+
+    canvas.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 2 && pinchStartDist) {
+        e.preventDefault();
+        const t1 = e.touches[0];
+        const t2 = e.touches[1];
+        const currentDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+        const scale = currentDist / Math.max(10, pinchStartDist);
+        camera.targetZoom = Math.min(2.2, Math.max(0.45, pinchStartZoom * scale));
+        updateZoomLabel();
+        return;
+      }
+      if (e.touches.length === 1 && !pinchStartDist) {
+        e.preventDefault();
+        const t = e.touches[0];
+        handlePointerMove(t.clientX, t.clientY);
+      }
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', (e) => {
+      if (pinchStartDist && e.touches.length < 2) {
+        pinchStartDist = null;
+        return;
+      }
+      const t = e.changedTouches[0];
+      if (!t) return;
+      const wasTap = !pointerMoved;
+      handlePointerUp(t.clientX, t.clientY);
+
+      if (wasTap) {
+        const now = Date.now();
+        const worldPt = screenToWorld(t.clientX, t.clientY);
+        const hitNote = findNoteAtWorld(worldPt.x, worldPt.y);
+        if (!hitNote && now - lastTapTime < 320) {
+          createNewNoteAt(worldPt.x, worldPt.y);
+        }
+        lastTapTime = now;
+      }
+    });
+
+    window.addEventListener('resize', resizeCanvas);
+    if (typeof ResizeObserver !== 'undefined' && canvas.parentElement) {
+      new ResizeObserver(() => resizeCanvas()).observe(canvas.parentElement);
+    }
+
+    function updateZoomLabel() {
+      const resetBtn = document.getElementById('resetViewBtn');
+      if (resetBtn) {
+        resetBtn.textContent = `${Math.round(camera.targetZoom * 100)}%`;
+      }
+    }
+
+    document.getElementById('zoomInBtn')?.addEventListener('click', () => {
+      camera.targetZoom = Math.min(2.2, camera.targetZoom + 0.18);
+      updateZoomLabel();
+    });
+
+    document.getElementById('zoomOutBtn')?.addEventListener('click', () => {
+      camera.targetZoom = Math.max(0.45, camera.targetZoom - 0.18);
+      updateZoomLabel();
+    });
+
+    document.getElementById('resetViewBtn')?.addEventListener('click', () => {
+      camera.targetZoom = 1;
+      camera.x = 0;
+      camera.y = 0;
+      updateZoomLabel();
+    });
+
+    document.getElementById('harmonizeBtn')?.addEventListener('click', harmonizeConstellation);
+
+    // =========================================================================
+    // 10. NOTE CREATION, SLIDE-OVER EDITOR & ORGANIC GROUPS
+    // =========================================================================
+    function createNewNoteAt(wx, wy, prefillTitle = '', prefillBody = '') {
+      const palette = ['#2F5747', '#B8683E', '#A37B35', '#435869', '#6E4B59'];
+      const chosenColor = palette[notes.length % palette.length];
+      const newNote = {
+        id: `note-${Date.now()}`,
+        title: prefillTitle || 'New Thought',
+        body: prefillBody || '',
+        color: chosenColor,
+        group: '',
+        x: wx,
+        y: wy,
+        vx: 0,
+        vy: 0,
+        phase: Math.random() * Math.PI * 2,
+        updatedAt: Date.now()
+      };
+      notes.push(newNote);
+      ripples.push({ x: wx, y: wy, radius: 10, alpha: 0.75, color: chosenColor });
+      rebuildConnections();
+      updateNavigationCounts();
+      scheduleAutoSave();
+      openNoteDrawer(newNote.id);
+    }
+
+    document.getElementById('newNoteBtn')?.addEventListener('click', () => {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 60 + Math.random() * 90;
+      const wx = -camera.x / camera.zoom + Math.cos(angle) * radius;
+      const wy = -camera.y / camera.zoom + Math.sin(angle) * radius;
+      createNewNoteAt(wx, wy);
+    });
+
+    function selectEssenceColor(colorHex) {
+      activeEditorColor = colorHex;
+      if (drawerEssenceDot) {
+        drawerEssenceDot.style.backgroundColor = colorHex;
+      }
+      document.querySelectorAll('.essence-btn').forEach(btn => {
+        const isMatch = btn.dataset.color?.toLowerCase() === colorHex.toLowerCase();
+        btn.classList.toggle('ring-2', isMatch);
+        btn.classList.toggle('ring-charcoal/50', isMatch);
+        btn.classList.toggle('scale-110', isMatch);
+      });
+    }
+
+    document.querySelectorAll('.essence-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const color = btn.dataset.color;
+        if (!color || !selectedNoteId) return;
+        selectEssenceColor(color);
+        const note = notes.find(n => n.id === selectedNoteId);
+        if (note) {
+          note.color = color;
+          note.updatedAt = Date.now();
+          scheduleAutoSave();
+          if (activePage === 'notes') renderNotesPage();
+        }
+      });
+    });
+
+    function renderDrawerGroupPills(currentGroup) {
+      if (!drawerGroupPills) return;
+      const groups = getAllGroups();
+      if (clearNoteGroupBtn) {
+        clearNoteGroupBtn.classList.toggle('hidden', !(currentGroup || '').trim());
+      }
+      if (groups.length === 0) {
+        drawerGroupPills.innerHTML = '';
+        return;
+      }
+      drawerGroupPills.innerHTML = groups
+        .map(g => {
+          const isActive = g.name.toLowerCase() === (currentGroup || '').trim().toLowerCase();
+          return `
+            <button
+              type="button"
+              data-assign-group="${escapeHtml(g.name)}"
+              class="px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors border ${
+                isActive
+                  ? 'bg-sage text-linen border-sage'
+                  : 'bg-surface text-charcoal border-charcoal/15 hover:border-sage'
+              }"
+            >
+              ${escapeHtml(g.name)} (${g.count})
+            </button>
+          `;
+        })
+        .join('');
+
+      drawerGroupPills.querySelectorAll('[data-assign-group]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const gName = btn.dataset.assignGroup || '';
+          if (noteGroupInput) noteGroupInput.value = gName;
+          const note = notes.find(n => n.id === selectedNoteId);
+          if (note) {
+            note.group = gName;
+            note.updatedAt = Date.now();
+            rebuildConnections();
+            renderDrawerGroupPills(gName);
+            renderActiveConnections(note.id);
+            scheduleAutoSave();
+            if (activePage === 'notes') renderNotesPage();
+          }
+        });
+      });
+    }
+
+    function renderQuickLinkChips(currentId) {
+      if (!quickLinkChips) return;
+      const others = notes.filter(n => n.id !== currentId);
+      if (others.length === 0) {
+        quickLinkChips.innerHTML = '<span class="text-xs text-lichen">Create another note to weave links.</span>';
+        return;
+      }
+      quickLinkChips.innerHTML = others
+        .map(n => `
+          <button
+            type="button"
+            data-weave-title="${escapeHtml(n.title || 'Untitled Thought')}"
+            class="px-2.5 py-1 rounded-full text-xs font-medium bg-stone/75 hover:bg-sage hover:text-linen text-charcoal transition-colors"
+          >
+            + [[${escapeHtml(n.title || 'Untitled Thought')}]]
+          </button>
+        `)
+        .join('');
+
+      quickLinkChips.querySelectorAll('[data-weave-title]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const title = btn.dataset.weaveTitle;
+          if (!title || !noteBodyInput) return;
+          const insertion = ` [[${title}]]`;
+          noteBodyInput.value = `${noteBodyInput.value.trimEnd()}${insertion}`;
+          noteBodyInput.dispatchEvent(new Event('input'));
+          noteBodyInput.focus();
+        });
+      });
+    }
+
+    function renderActiveConnections(noteId) {
+      if (!activeConnectionsList || !activeConnCount) return;
+      const noteMap = new Map(notes.map(n => [n.id, n]));
+      const related = connections.filter(c => c.source === noteId || c.target === noteId);
+      activeConnCount.textContent = related.length;
+
+      if (related.length === 0) {
+        activeConnectionsList.innerHTML = '<p class="text-xs text-lichen">No threads yet. Add a #tag or [[Note Title]] to connect.</p>';
+        return;
+      }
+
+      activeConnectionsList.innerHTML = related
+        .map(conn => {
+          const otherId = conn.source === noteId ? conn.target : conn.source;
+          const other = noteMap.get(otherId);
+          if (!other) return '';
+          return `
+            <button
+              type="button"
+              data-jump-note="${other.id}"
+              class="w-full text-left flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-stone/50 hover:bg-stone border border-charcoal/10 transition-colors"
+            >
+              <div class="min-w-0">
+                <div class="text-xs font-semibold text-charcoal truncate">${escapeHtml(other.title || 'Untitled Thought')}</div>
+                <div class="text-[11px] text-lichen truncate">${escapeHtml(conn.reason)}</div>
+              </div>
+              <span class="text-xs text-sage font-semibold shrink-0">Open →</span>
+            </button>
+          `;
+        })
+        .join('');
+
+      activeConnectionsList.querySelectorAll('[data-jump-note]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          openNoteDrawer(btn.dataset.jumpNote);
+        });
+      });
+    }
+
+    function openNoteDrawer(noteId) {
+      const note = notes.find(n => n.id === noteId);
+      if (!note) return;
+      selectedNoteId = note.id;
+      readerSelectedNoteId = note.id;
+
+      if (deleteConfirmBar) deleteConfirmBar.classList.add('hidden');
+      if (drawerStatusLabel) drawerStatusLabel.textContent = 'Editing Thought';
+      if (noteTitleInput) noteTitleInput.value = note.title || '';
+      if (noteBodyInput) noteBodyInput.value = note.body || '';
+      if (noteGroupInput) noteGroupInput.value = note.group || '';
+
+      selectEssenceColor(note.color || '#2F5747');
+      renderDrawerGroupPills(note.group || '');
+      renderQuickLinkChips(note.id);
+      renderActiveConnections(note.id);
+
+      noteDrawer?.classList.remove('translate-x-full');
+    }
+
+    function closeNoteDrawer() {
+      noteDrawer?.classList.add('translate-x-full');
+      deleteConfirmBar?.classList.add('hidden');
+      selectedNoteId = null;
+    }
+
+    noteTitleInput?.addEventListener('input', () => {
+      const note = notes.find(n => n.id === selectedNoteId);
+      if (!note) return;
+      note.title = noteTitleInput.value;
+      note.updatedAt = Date.now();
+      rebuildConnections();
+      renderActiveConnections(note.id);
+      updateNavigationCounts();
+      scheduleAutoSave();
+      if (activePage === 'notes') renderNotesPage();
+    });
+
+    noteBodyInput?.addEventListener('input', () => {
+      const note = notes.find(n => n.id === selectedNoteId);
+      if (!note) return;
+      note.body = noteBodyInput.value;
+      note.updatedAt = Date.now();
+      rebuildConnections();
+      renderActiveConnections(note.id);
+      scheduleAutoSave();
+      if (activePage === 'notes') renderNotesPage();
+    });
+
+    noteGroupInput?.addEventListener('input', () => {
+      const note = notes.find(n => n.id === selectedNoteId);
+      if (!note) return;
+      note.group = noteGroupInput.value;
+      note.updatedAt = Date.now();
+      rebuildConnections();
+      renderDrawerGroupPills(note.group);
+      renderActiveConnections(note.id);
+      scheduleAutoSave();
+      if (activePage === 'notes') renderNotesPage();
+    });
+
+    clearNoteGroupBtn?.addEventListener('click', () => {
+      const note = notes.find(n => n.id === selectedNoteId);
+      if (!note) return;
+      note.group = '';
+      if (noteGroupInput) noteGroupInput.value = '';
+      rebuildConnections();
+      renderDrawerGroupPills('');
+      renderActiveConnections(note.id);
+      scheduleAutoSave();
+      if (activePage === 'notes') renderNotesPage();
+    });
+
+    document.getElementById('closeDrawerBtn')?.addEventListener('click', closeNoteDrawer);
+    document.getElementById('saveNoteBtn')?.addEventListener('click', () => {
+      persistImmediately();
+      closeNoteDrawer();
+      showToast('Thought woven into garden', activeEditorColor);
+    });
+
+    document.getElementById('deletePromptBtn')?.addEventListener('click', () => {
+      deleteConfirmBar?.classList.remove('hidden');
+    });
+
+    document.getElementById('cancelDeleteBtn')?.addEventListener('click', () => {
+      deleteConfirmBar?.classList.add('hidden');
+    });
+
+    document.getElementById('confirmDeleteBtn')?.addEventListener('click', () => {
+      if (!selectedNoteId) return;
+      notes = notes.filter(n => n.id !== selectedNoteId);
+      if (readerSelectedNoteId === selectedNoteId) {
+        readerSelectedNoteId = notes[0]?.id || null;
+      }
+      closeNoteDrawer();
+      rebuildConnections();
+      updateNavigationCounts();
+      scheduleAutoSave();
+      if (activePage === 'notes') renderNotesPage();
+      showToast('Note released from garden', '#B8683E');
+    });
+
+    // =========================================================================
+    // 11. ORGANIC GROUP MODAL & GARDEN SEARCH FILTERING
+    // =========================================================================
+    let modalCheckedNoteIds = new Set();
+
+    function renderGroupModalChecklist() {
+      if (!groupNotesChecklist) return;
+      if (selectedGroupNotesCount) {
+        selectedGroupNotesCount.textContent = `${modalCheckedNoteIds.size} selected`;
+      }
+      groupNotesChecklist.innerHTML = notes
+        .map(n => {
+          const checked = modalCheckedNoteIds.has(n.id);
+          return `
+            <label class="flex items-center justify-between gap-3 p-2.5 rounded-2xl border cursor-pointer transition-colors ${
+              checked ? 'bg-sage/12 border-sage' : 'bg-linen/60 border-charcoal/10 hover:bg-stone/60'
+            }">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <input
+                  type="checkbox"
+                  data-group-note-id="${n.id}"
+                  ${checked ? 'checked' : ''}
+                  class="w-4 h-4 accent-[#2F5747] rounded cursor-pointer shrink-0"
+                />
+                <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${getThemeNodeColor(n.color)}"></span>
+                <span class="text-xs font-medium text-charcoal truncate">${escapeHtml(n.title || 'Untitled Thought')}</span>
+              </div>
+              ${n.group ? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-surface border border-charcoal/10 text-lichen shrink-0">${escapeHtml(n.group)}</span>` : ''}
+            </label>
+          `;
+        })
+        .join('');
+
+      groupNotesChecklist.querySelectorAll('[data-group-note-id]').forEach(cb => {
+        cb.addEventListener('change', () => {
+          const id = cb.dataset.groupNoteId;
+          if (cb.checked) modalCheckedNoteIds.add(id);
+          else modalCheckedNoteIds.delete(id);
+          renderGroupModalChecklist();
+        });
+      });
+    }
+
+    function openGroupModal(prefillGroupName = '') {
+      const groups = getAllGroups();
+      if (existingGroupsSection && modalExistingGroupChips) {
+        if (groups.length > 0) {
+          existingGroupsSection.classList.remove('hidden');
+          modalExistingGroupChips.innerHTML = groups
+            .map(g => `
+              <button
+                type="button"
+                data-pick-existing-group="${escapeHtml(g.name)}"
+                class="px-3 py-1 rounded-full text-xs font-medium bg-stone hover:bg-sage hover:text-linen text-charcoal transition-colors"
+              >
+                ${escapeHtml(g.name)} (${g.count})
+              </button>
+            `)
+            .join('');
+
+          modalExistingGroupChips.querySelectorAll('[data-pick-existing-group]').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const name = btn.dataset.pickExistingGroup || '';
+              if (groupNameInput) groupNameInput.value = name;
+              modalCheckedNoteIds = new Set(
+                notes.filter(n => (n.group || '').trim().toLowerCase() === name.toLowerCase()).map(n => n.id)
+              );
+              dissolveGroupBtn?.classList.remove('hidden');
+              renderGroupModalChecklist();
+            });
+          });
+        } else {
+          existingGroupsSection.classList.add('hidden');
+        }
+      }
+
+      if (groupNameInput) groupNameInput.value = prefillGroupName;
+      if (prefillGroupName) {
+        modalCheckedNoteIds = new Set(
+          notes.filter(n => (n.group || '').trim().toLowerCase() === prefillGroupName.toLowerCase()).map(n => n.id)
+        );
+        dissolveGroupBtn?.classList.remove('hidden');
+      } else {
+        modalCheckedNoteIds = new Set(selectedNoteId ? [selectedNoteId] : []);
+        dissolveGroupBtn?.classList.add('hidden');
+      }
+
+      renderGroupModalChecklist();
+      groupModal?.classList.remove('hidden');
+    }
+
+    function closeGroupModal() {
+      groupModal?.classList.add('hidden');
+    }
+
+    document.getElementById('openGroupModalBtn')?.addEventListener('click', () => openGroupModal());
+    document.getElementById('closeGroupModalBtn')?.addEventListener('click', closeGroupModal);
+    document.getElementById('cancelGroupModalBtn')?.addEventListener('click', closeGroupModal);
+
+    document.getElementById('applyGroupBtn')?.addEventListener('click', () => {
+      const name = (groupNameInput?.value || '').trim();
+      if (!name) {
+        showToast('Please enter a group name first', '#B8683E');
+        groupNameInput?.focus();
+        return;
+      }
+      notes.forEach(n => {
+        if (modalCheckedNoteIds.has(n.id)) {
+          n.group = name;
+        } else if ((n.group || '').trim().toLowerCase() === name.toLowerCase()) {
+          n.group = '';
+        }
+      });
+      groupClusteringEnabled = true;
+      updateGroupToggleUI();
+      rebuildConnections();
+      scheduleAutoSave();
+      closeGroupModal();
+      showToast(`Grouped ${modalCheckedNoteIds.size} notes into "${name}"`, '#2F5747');
+    });
+
+    dissolveGroupBtn?.addEventListener('click', () => {
+      const name = (groupNameInput?.value || '').trim().toLowerCase();
+      if (!name) return;
+      notes.forEach(n => {
+        if ((n.group || '').trim().toLowerCase() === name) {
+          n.group = '';
+        }
+      });
+      rebuildConnections();
+      scheduleAutoSave();
+      closeGroupModal();
+      showToast('Group dissolved', '#B8683E');
+    });
+
+    function updateGroupToggleUI() {
+      const btn = document.getElementById('toggleGroupClusterBtn');
+      const label = document.getElementById('groupClusterLabel');
+      const dot = document.getElementById('groupClusterDot');
+      if (label) label.textContent = groupClusteringEnabled ? 'Groups: On' : 'Groups: Off';
+      if (btn) {
+        btn.className = groupClusteringEnabled
+          ? 'pointer-events-auto bg-sage/15 hover:bg-sage/25 backdrop-blur-md border border-sage/35 text-sage rounded-full px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs font-medium flex items-center gap-1.5 shadow-soft transition-all active:scale-95'
+          : 'pointer-events-auto bg-surface/95 hover:bg-surface backdrop-blur-md border border-charcoal/15 text-lichen rounded-full px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs font-medium flex items-center gap-1.5 shadow-soft transition-all active:scale-95';
+      }
+      if (dot) {
+        dot.className = groupClusteringEnabled
+          ? 'w-1.5 h-1.5 rounded-full bg-sage'
+          : 'w-1.5 h-1.5 rounded-full bg-lichen';
+      }
+    }
+
+    document.getElementById('toggleGroupClusterBtn')?.addEventListener('click', () => {
+      groupClusteringEnabled = !groupClusteringEnabled;
+      updateGroupToggleUI();
+    });
+
+    const gardenSearchInput = document.getElementById('gardenSearchInput');
+    const clearGardenSearchBtn = document.getElementById('clearGardenSearchBtn');
+
+    gardenSearchInput?.addEventListener('input', () => {
+      gardenSearchQuery = gardenSearchInput.value.trim();
+      clearGardenSearchBtn?.classList.toggle('hidden', !gardenSearchQuery);
+    });
+
+    clearGardenSearchBtn?.addEventListener('click', () => {
+      gardenSearchQuery = '';
+      if (gardenSearchInput) gardenSearchInput.value = '';
+      clearGardenSearchBtn?.classList.add('hidden');
+    });
+
+    // =========================================================================
+    // 12. PAGE SWITCHING, NOTES READER PAGE & TO-DO SANCTUARY PAGE
+    // =========================================================================
+    function switchPage(pageName) {
+      activePage = pageName;
+
+      document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+        const isMatch = btn.dataset.page === pageName;
+        btn.classList.toggle('active', isMatch);
+        if (isMatch) {
+          btn.classList.add('bg-charcoal', 'text-linen', 'shadow-sm');
+          btn.classList.remove('text-charcoal/80', 'hover:text-charcoal');
+        } else {
+          btn.classList.remove('bg-charcoal', 'text-linen', 'shadow-sm');
+          btn.classList.add('text-charcoal/80', 'hover:text-charcoal');
+        }
+      });
+
+      gardenView.classList.toggle('hidden', pageName !== 'garden');
+      notesView.classList.toggle('hidden', pageName !== 'notes');
+      todosView.classList.toggle('hidden', pageName !== 'todos');
+      harmonizeBtn.classList.toggle('hidden', pageName !== 'garden');
+      if (gardenToolbar) {
+        gardenToolbar.classList.toggle('hidden', pageName !== 'garden');
+      }
+
+      if (pageName === 'garden') {
+        resizeCanvas();
+      } else if (pageName === 'notes') {
+        renderNotesPage();
+      } else if (pageName === 'todos') {
+        renderTodosPage();
+      }
+    }
+
+    document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchPage(btn.dataset.page);
+      });
+    });
+
+    // --- Notes Reader Page ---
+    function renderNotesPage() {
+      const tagBar = document.getElementById('notesTagFilterBar');
+      const listCol = document.getElementById('notesListColumn');
+      const readerPane = document.getElementById('noteReaderPane');
+      const readerContainer = document.getElementById('readerContentContainer');
+      if (!tagBar || !listCol || !readerPane || !readerContainer) return;
+
+      // Collect all tags
+      const tagCounts = new Map();
+      notes.forEach(n => {
+        extractTags(`${n.title} ${n.body}`).forEach(t => {
+          tagCounts.set(t, (tagCounts.get(t) || 0) + 1);
+        });
+      });
+
+      const allTags = ['all', ...Array.from(tagCounts.keys())];
+      tagBar.innerHTML = allTags
+        .map(tag => {
+          const isActive = notesSelectedTag === tag;
+          const label = tag === 'all' ? `All Notes (${notes.length})` : `${tag} (${tagCounts.get(tag)})`;
+          return `
+            <button
+              type="button"
+              data-filter-tag="${escapeHtml(tag)}"
+              class="px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors border ${
+                isActive
+                  ? 'bg-charcoal text-linen border-charcoal'
+                  : 'bg-surface text-charcoal border-charcoal/15 hover:border-sage'
+              }"
+            >
+              ${escapeHtml(label)}
+            </button>
+          `;
+        })
+        .join('');
+
+      tagBar.querySelectorAll('[data-filter-tag]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          notesSelectedTag = btn.dataset.filterTag || 'all';
+          renderNotesPage();
+        });
+      });
+
+      // Filter notes
+      const q = notesSearchQuery.toLowerCase();
+      const filtered = notes.filter(n => {
+        const matchesTag =
+          notesSelectedTag === 'all' ||
+          extractTags(`${n.title} ${n.body}`).includes(notesSelectedTag);
+        const matchesQuery =
+          !q ||
+          (n.title || '').toLowerCase().includes(q) ||
+          (n.body || '').toLowerCase().includes(q) ||
+          (n.group || '').toLowerCase().includes(q);
+        return matchesTag && matchesQuery;
+      });
+
+      if (!readerSelectedNoteId || !filtered.some(n => n.id === readerSelectedNoteId)) {
+        readerSelectedNoteId = filtered[0]?.id || null;
+      }
+
+      if (filtered.length === 0) {
+        listCol.innerHTML = `
+          <div class="bg-surface border border-charcoal/15 rounded-3xl p-8 text-center">
+            <p class="font-serif text-lg text-charcoal">No matching notes found</p>
+            <p class="text-xs text-lichen mt-1">Try clearing your search filter or plant a new thought.</p>
+          </div>
+        `;
+        readerContainer.innerHTML = '<p class="text-sm text-lichen">Select a note to read its full text.</p>';
+        return;
+      }
+
+      listCol.innerHTML = filtered
+        .map(n => {
+          const isSelected = n.id === readerSelectedNoteId;
+          const snippet = (n.body || '').replace(/\[\[([^\]]+)\]\]/g, '$1').slice(0, 115);
+          return `
+            <button
+              type="button"
+              data-read-note-id="${n.id}"
+              class="w-full text-left bg-surface border rounded-3xl p-5 transition-all shadow-soft ${
+                isSelected ? 'border-sage ring-2 ring-sage/20' : 'border-charcoal/15 hover:border-sage/60'
+              }"
+            >
+              <div class="flex items-center justify-between gap-2 mb-1.5">
+                <div class="flex items-center gap-2 min-w-0">
+                  <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${getThemeNodeColor(n.color)}"></span>
+                  <h3 class="font-serif text-lg font-medium text-charcoal truncate">${escapeHtml(n.title || 'Untitled Thought')}</h3>
+                </div>
+                ${n.group ? `<span class="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-stone text-charcoal shrink-0">${escapeHtml(n.group)}</span>` : ''}
+              </div>
+              <p class="text-xs text-lichen line-clamp-2 leading-relaxed">${escapeHtml(snippet || 'Empty note — tap to write...')}</p>
+            </button>
+          `;
+        })
+        .join('');
+
+      listCol.querySelectorAll('[data-read-note-id]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          readerSelectedNoteId = btn.dataset.readNoteId;
+          renderNotesPage();
+          // On mobile screens, show the reader pane cleanly
+          if (window.innerWidth < 1024) {
+            listCol.classList.add('hidden');
+            readerPane.classList.remove('hidden');
+          }
+        });
+      });
+
+      // Render active reading article
+      const activeNote = filtered.find(n => n.id === readerSelectedNoteId) || filtered[0];
+      const formattedBody = formatEditorialBody(activeNote.body || '');
+      const relatedConns = connections.filter(c => c.source === activeNote.id || c.target === activeNote.id);
+      const noteMap = new Map(notes.map(n => [n.id, n]));
+
+      readerContainer.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-5 mb-6 border-b border-charcoal/10">
+          <div class="flex items-center gap-2.5">
+            <span class="w-3 h-3 rounded-full" style="background-color: ${getThemeNodeColor(activeNote.color)}"></span>
+            <span class="text-xs font-semibold uppercase tracking-wider text-lichen">
+              ${activeNote.group ? `Group: ${escapeHtml(activeNote.group)}` : 'Garden Note'}
+            </span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              id="readerViewInGardenBtn"
+              class="px-3.5 py-1.5 rounded-full text-xs font-medium bg-stone/80 hover:bg-stone text-charcoal transition-colors"
+            >
+              Locate in Garden
+            </button>
+            <button
+              type="button"
+              id="readerEditNoteBtn"
+              class="px-4 py-1.5 rounded-full text-xs font-medium bg-charcoal hover:bg-sage text-linen transition-colors"
+            >
+              Edit Note
+            </button>
+          </div>
+        </div>
+
+        <h2 class="font-serif text-2xl sm:text-4xl font-medium text-charcoal leading-tight mb-6">
+          ${escapeHtml(activeNote.title || 'Untitled Thought')}
+        </h2>
+
+        <div class="space-y-4 text-base sm:text-[17px] leading-relaxed text-charcoal/95">
+          ${formattedBody || '<p class="text-lichen italic">This page is still blank. Tap Edit Note to begin writing.</p>'}
+        </div>
+
+        ${
+          relatedConns.length > 0
+            ? `
+          <div class="mt-10 pt-6 border-t border-charcoal/10">
+            <h4 class="text-[11px] uppercase tracking-wider font-semibold text-lichen mb-3">Woven Connections (${relatedConns.length})</h4>
+            <div class="flex flex-wrap gap-2">
+              ${relatedConns
+                .map(c => {
+                  const otherId = c.source === activeNote.id ? c.target : c.source;
+                  const other = noteMap.get(otherId);
+                  if (!other) return '';
+                  return `
+                    <button
+                      type="button"
+                      data-reader-jump="${other.id}"
+                      class="px-3.5 py-2 rounded-2xl bg-stone/65 hover:bg-sage hover:text-linen text-xs font-medium text-charcoal transition-colors"
+                    >
+                      ${escapeHtml(other.title || 'Untitled Thought')}
+                    </button>
+                  `;
+                })
+                .join('')}
+            </div>
+          </div>
+        `
+            : ''
+        }
+      `;
+
+      document.getElementById('readerEditNoteBtn')?.addEventListener('click', () => {
+        openNoteDrawer(activeNote.id);
+      });
+
+      document.getElementById('readerViewInGardenBtn')?.addEventListener('click', () => {
+        switchPage('garden');
+        selectedNoteId = activeNote.id;
+        camera.x = -activeNote.x * camera.zoom;
+        camera.y = -activeNote.y * camera.zoom;
+        ripples.push({ x: activeNote.x, y: activeNote.y, radius: 14, alpha: 0.85, color: activeNote.color });
+      });
+
+      readerContainer.querySelectorAll('[data-reader-jump], [data-wiki-target]').forEach(el => {
+        el.addEventListener('click', () => {
+          const targetId = el.dataset.readerJump;
+          if (targetId) {
+            readerSelectedNoteId = targetId;
+            renderNotesPage();
+            return;
+          }
+          const targetTitle = (el.dataset.wikiTarget || '').toLowerCase();
+          const match = notes.find(n => (n.title || '').trim().toLowerCase() === targetTitle);
+          if (match) {
+            readerSelectedNoteId = match.id;
+            renderNotesPage();
+          } else {
+            showToast(`"${el.dataset.wikiTarget}" is not planted yet`, '#B8683E');
+          }
+        });
+      });
+    }
+
+    function formatEditorialBody(rawText) {
+      const paragraphs = rawText.split(/\n{2,}/).filter(p => p.trim().length > 0);
+      return paragraphs
+        .map(p => {
+          let safe = escapeHtml(p).replace(/\n/g, '<br />');
+          safe = safe.replace(
+            /\[\[([^\]]+)\]\]/g,
+            '<button type="button" data-wiki-target="$1" class="inline-flex items-center px-2 py-0.5 mx-0.5 rounded-lg bg-sage/15 text-sage font-medium hover:bg-sage hover:text-linen transition-colors">$1</button>'
+          );
+          safe = safe.replace(
+            /(#[a-zA-Z0-9_-]+)/g,
+            '<span class="text-terracotta font-medium">$1</span>'
+          );
+          return `<p>${safe}</p>`;
+        })
+        .join('');
+    }
+
+    document.getElementById('mobileBackToNotesListBtn')?.addEventListener('click', () => {
+      document.getElementById('notesListColumn')?.classList.remove('hidden');
+      document.getElementById('noteReaderPane')?.classList.add('hidden');
+    });
+
+    document.getElementById('notesPageSearchInput')?.addEventListener('input', (e) => {
+      notesSearchQuery = e.target.value.trim();
+      renderNotesPage();
+    });
+
+    document.getElementById('exportMdBtn')?.addEventListener('click', exportGardenMarkdown);
+
+    // --- To-Do Sanctuary Page ---
+    function renderTodosPage() {
+      const listEl = document.getElementById('todoListContainer');
+      const fractionEl = document.getElementById('todoProgressFraction');
+      const barEl = document.getElementById('todoProgressBar');
+      const clearBtn = document.getElementById('clearCompletedTodosBtn');
+      if (!listEl) return;
+
+      const totalCount = todos.length;
+      const doneCount = todos.filter(t => t.completed).length;
+      if (fractionEl) fractionEl.textContent = `${doneCount} / ${totalCount}`;
+      if (barEl) {
+        const pct = totalCount === 0 ? 0 : Math.round((doneCount / totalCount) * 100);
+        barEl.style.width = `${pct}%`;
+      }
+      if (clearBtn) {
+        clearBtn.classList.toggle('hidden', doneCount === 0);
+      }
+
+      const visibleTodos = todos.filter(t => {
+        if (todoFilter === 'active') return !t.completed;
+        if (todoFilter === 'completed') return t.completed;
+        return true;
+      });
+
+      if (visibleTodos.length === 0) {
+        listEl.innerHTML = `
+          <div class="bg-surface border border-charcoal/15 rounded-3xl p-8 text-center">
+            <p class="font-serif text-lg text-charcoal">All is calm here</p>
+            <p class="text-xs text-lichen mt-1">Add a new intention above whenever inspiration strikes.</p>
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = visibleTodos
+        .map(t => `
+          <div class="bg-surface border border-charcoal/15 rounded-2xl p-3.5 sm:p-4 shadow-soft flex items-center justify-between gap-3 transition-all">
+            <div class="flex items-center gap-3 min-w-0 flex-1">
+              <button
+                type="button"
+                data-toggle-todo="${t.id}"
+                aria-label="Toggle task"
+                class="w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+                  t.completed
+                    ? 'bg-sage border-sage text-linen animate-check-pop'
+                    : 'border-charcoal/30 hover:border-sage'
+                }"
+              >
+                ${
+                  t.completed
+                    ? '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>'
+                    : ''
+                }
+              </button>
+
+              <div class="min-w-0 flex-1">
+                <p class="text-sm font-medium transition-all ${
+                  t.completed ? 'line-through text-lichen' : 'text-charcoal'
+                }">
+                  ${escapeHtml(t.text)}
+                </p>
+                <span class="inline-block mt-1 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-stone text-lichen">
+                  ${escapeHtml(t.category || 'Focus')}
+                </span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-1 shrink-0">
+              <button
+                type="button"
+                data-plant-todo="${t.id}"
+                title="Plant task as a note in your Garden"
+                class="p-2 rounded-full text-sage hover:bg-sage/15 transition-colors"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"></path>
+                </svg>
+              </button>
+              <button
+                type="button"
+                data-delete-todo="${t.id}"
+                title="Delete task"
+                class="p-2 rounded-full text-lichen hover:text-terracotta hover:bg-stone transition-colors"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `)
+        .join('');
+
+      listEl.querySelectorAll('[data-toggle-todo]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = todos.find(x => x.id === btn.dataset.toggleTodo);
+          if (!item) return;
+          item.completed = !item.completed;
+          updateNavigationCounts();
+          scheduleAutoSave();
+          renderTodosPage();
+        });
+      });
+
+      listEl.querySelectorAll('[data-plant-todo]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = todos.find(x => x.id === btn.dataset.plantTodo);
+          if (!item) return;
+          switchPage('garden');
+          createNewNoteAt(
+            (Math.random() - 0.5) * 140,
+            (Math.random() - 0.5) * 140,
+            item.text.slice(0, 48),
+            `Planted from To-Do Sanctuary (${item.category}):\n\n${item.text} #intention`
+          );
+          showToast('Task planted into Garden!', '#2F5747');
+        });
+      });
+
+      listEl.querySelectorAll('[data-delete-todo]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          todos = todos.filter(x => x.id !== btn.dataset.deleteTodo);
+          updateNavigationCounts();
+          scheduleAutoSave();
+          renderTodosPage();
+        });
+      });
+    }
+
+    document.getElementById('addTodoForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('newTodoInput');
+      const cat = document.getElementById('newTodoCategory');
+      const text = (input?.value || '').trim();
+      if (!text) return;
+
+      todos.unshift({
+        id: `todo-${Date.now()}`,
+        text,
+        category: cat?.value || 'Focus',
+        completed: false,
+        createdAt: Date.now()
+      });
+
+      if (input) input.value = '';
+      updateNavigationCounts();
+      scheduleAutoSave();
+      renderTodosPage();
+      showToast('Added to daily intentions', '#2F5747');
+    });
+
+    document.querySelectorAll('.todo-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        todoFilter = btn.dataset.todoFilter || 'all';
+        document.querySelectorAll('.todo-filter-btn').forEach(b => {
+          const active = b.dataset.todoFilter === todoFilter;
+          b.className = active
+            ? 'todo-filter-btn active px-3.5 py-1.5 rounded-full text-xs font-medium bg-charcoal text-linen transition-colors'
+            : 'todo-filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium bg-surface/90 text-charcoal hover:bg-surface border border-charcoal/15 transition-colors';
+        });
+        renderTodosPage();
+      });
+    });
+
+    document.getElementById('clearCompletedTodosBtn')?.addEventListener('click', () => {
+      todos = todos.filter(t => !t.completed);
+      updateNavigationCounts();
+      scheduleAutoSave();
+      renderTodosPage();
+      showToast('Cleared completed tasks', '#2F5747');
+    });
+
+    // =========================================================================
+    // 13. EXPORT, TOASTS & UTILITIES
+    // =========================================================================
+    function downloadFile(filename, content, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function exportGardenMarkdown() {
+      const dateStamp = new Date().toISOString().slice(0, 10);
+      const header = `# Jacob's Garden — Organic Note Sanctuary\nExported on ${dateStamp}\n\n---\n\n`;
+      const body = notes
+        .map(n => {
+          const groupLine = n.group ? `*Group: ${n.group}*\n\n` : '';
+          return `## ${n.title || 'Untitled Thought'}\n${groupLine}${n.body || ''}`;
+        })
+        .join('\n\n---\n\n');
+      const md = header + body;
+      downloadFile(`jacobs-garden-notes-${dateStamp}.md`, md, 'text/markdown;charset=utf-8');
+      showToast('Exported clean Markdown (.md)', '#B8683E');
+    }
+
+    function updateNavigationCounts() {
+      document.querySelectorAll('.nav-notes-count').forEach(el => {
+        el.textContent = notes.length;
+      });
+      const remaining = todos.filter(t => !t.completed).length;
+      document.querySelectorAll('.nav-todos-count').forEach(el => {
+        el.textContent = remaining;
+      });
+    }
+
+    let toastTimer = null;
+    function showToast(msg, dotColor = '#2F5747') {
+      const pill = document.getElementById('toastPill');
+      const dot = document.getElementById('toastDot');
+      const text = document.getElementById('toastMessage');
+      if (!pill || !text) return;
+      text.textContent = msg;
+      if (dot) dot.style.backgroundColor = dotColor;
+      pill.classList.remove('opacity-0', 'translate-y-2');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        pill.classList.add('opacity-0', 'translate-y-2');
+      }, 2400);
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // Keyboard shortcut: Cmd/Ctrl + S saves immediately
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        persistImmediately();
+        showToast('Garden auto-saved', '#2F5747');
+      } else if (e.key === 'Escape') {
+        if (!groupModal?.classList.contains('hidden')) closeGroupModal();
+        else if (!noteDrawer?.classList.contains('translate-x-full')) closeNoteDrawer();
+      }
+    });
+
+    // =========================================================================
+    // 14. INITIALIZE WORKSPACE
+    // =========================================================================
+    initMotes();
+    resizeCanvas();
+    initPersistence();
+    requestAnimationFrame(animateLoop);
+  </script>
+</body>
+</html>
